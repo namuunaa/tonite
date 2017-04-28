@@ -10,11 +10,20 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 require "sprockets/railtie"
+require "eventful_api"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+
+Dotenv::Railtie.load
+
+EVENTFUL_KEY = ENV['EVENTFUL_KEY']
+
+EventfulApi.configure do |config|
+  config.app_key = ENV['EVENTFUL_KEY']
+end
 
 module Tonite
   class Application < Rails::Application

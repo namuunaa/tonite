@@ -1,0 +1,2 @@
+class AlexaInterfaceController < ApplicationController
+end

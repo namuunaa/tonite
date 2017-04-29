@@ -27,7 +27,7 @@ module AlexaInterfaceHelper
 
   # Run pick ten (or run on output of pick ten, might be more DRY), picks top result. returns top result
   def pick1(ten_events)
-
+    ten_events.first
   end
 
   # use the alexa gem to add speech to response for alexa. doesn't need return as it's just side effects we want

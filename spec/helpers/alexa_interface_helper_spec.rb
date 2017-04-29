@@ -21,6 +21,7 @@ describe AlexaInterfaceHelper do
         expect(event_start.strftime("%F")).to eq(Date.today.strftime("%F"))
       end
     end
+  end
 
   describe '#pick10' do
     let(:response) do
@@ -28,10 +29,12 @@ describe AlexaInterfaceHelper do
     end
 
     it 'outputs an array with a length of 10' do
-      expect(pick10(response).length).to eq 10
+      expect(pick10(response).length).not_to be > 10
     end
 
+    it 'outputs an array even if input array contains less than 10 events' do
+      expect(pick10(response[0..3]).length).to be 4
+    end
   end
 
-  end
 end

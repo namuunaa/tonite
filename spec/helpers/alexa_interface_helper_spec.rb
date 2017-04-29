@@ -71,13 +71,24 @@ describe AlexaInterfaceHelper do
 
   describe '#format_html_text_to_string' do
     let(:html_text) do
-      "<br>Souvenir is his band&#39;s most expansive album to date, dishing up everything from the West Coast country-rock of &quot;California&quot; to the front-porch folk of &quot;Mama Sunshine, Daddy&#39;s Rain.&quot;"
+      "<br>Souvenir is his band&#39;s most expansive album to date, dishing up everything from the West Coast<br>country-rock of &quot;California&quot; to the front-porch folk of &quot;Mama Sunshine, Daddy&#39;s Rain.&quot;"
     end
 
     it 'removes html tags and formats into alexa writable string' do
       alexa_text = format_html_text_to_string(html_text)
-      expect(alexa_text).to eq("Souvenir is his band's most expansive album to date, dishing up everything from the West Coast country-rock of \"California\" to the front-porch folk of \"Mama Sunshine, Daddy's Rain.\"")
+      expect(alexa_text).to eq("\nSouvenir is his band's most expansive album to date, dishing up everything from the West Coast\ncountry-rock of \"California\" to the front-porch folk of \"Mama Sunshine, Daddy's Rain.\"")
     end
   end
 
+  describe '#find_formatted_description' do
+    it 'returns default description if the event has no description' do
+      event_hash = {}
+      expect(find_formatted_description(event_hash)).to eq('We don\'t have any details on this event')
+    end
+
+    it 'formats the string correctly if there is a description' do
+      event_hash = {'description' => "<br>Souvenir is his band&#39;s most expansive album to date, dishing up everything from the West Coast<br>country-rock of &quot;California&quot; to the front-porch folk of &quot;Mama Sunshine, Daddy&#39;s Rain.&quot;"}
+      expect(find_formatted_description(event_hash)).to eq("\nSouvenir is his band's most expansive album to date, dishing up everything from the West Coast\ncountry-rock of \"California\" to the front-porch folk of \"Mama Sunshine, Daddy's Rain.\"")
+    end
+  end
 end

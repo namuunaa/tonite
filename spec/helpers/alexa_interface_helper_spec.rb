@@ -37,4 +37,19 @@ describe AlexaInterfaceHelper do
     end
   end
 
+  describe '#pick1' do
+    let(:response) do
+      pick10(helper.call)
+    end
+
+    it 'outputs a hash' do
+      expect(pick1(response)).to be_a_kind_of(Hash)
+    end
+
+    it 'outputs nil if it takes an empty array' do
+      expect(pick1([])).to be nil
+    end
+  end
+
+
 end

@@ -37,7 +37,6 @@ module AlexaInterfaceHelper
     start_date = single_event['start_time']
     start_time = DateTime.parse(start_date).strftime('%l:%M %p')
     response_for_alexa.add_speech("#{event_name} is happening at #{venue_name} starting at #{start_time}")
-
   end
 
   # use the alexa gem to add text cards to give to alexa's companion app. doesn't need return as it's just side effects we want
@@ -45,4 +44,18 @@ module AlexaInterfaceHelper
 
   end
 
+  # take care of edge case where there's no description within the event hash
+  def find_formatted_description(event)
+    if event['description']
+      format_html_text_to_string(event['description'])
+    else
+      'We don\'t have any details on this event'
+    end
+  end
+
+  # remove br tags and &quot; formating and parse it into alexa writable strings
+  def format_html_text_to_string(html_text)
+    breakless_text = html_text.gsub("<br>", "\n")
+    Nokogiri::HTML(breakless_text).text
+  end
 end

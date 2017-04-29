@@ -67,7 +67,17 @@ describe AlexaInterfaceHelper do
       format_speech_for_alexa(response, event)
       expect(response.speech[:text]).to eq("Hamilton is happening at DBC starting at  6:00 PM")
     end
+  end
 
+  describe '#format_html_text_to_string' do
+    let(:html_text) do
+      "<br>Souvenir is his band&#39;s most expansive album to date, dishing up everything from the West Coast country-rock of &quot;California&quot; to the front-porch folk of &quot;Mama Sunshine, Daddy&#39;s Rain.&quot;"
+    end
+
+    it 'removes html tags and formats into alexa writable string' do
+      alexa_text = format_html_text_to_string(html_text)
+      expect(alexa_text).to eq("Souvenir is his band's most expansive album to date, dishing up everything from the West Coast country-rock of \"California\" to the front-porch folk of \"Mama Sunshine, Daddy's Rain.\"")
+    end
   end
 
 end

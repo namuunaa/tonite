@@ -22,6 +22,16 @@ describe AlexaInterfaceHelper do
       end
     end
 
+  describe '#pick10' do
+    let(:response) do
+      helper.call
+    end
+
+    it 'outputs an array with a length of 10' do
+      expect(pick10(response).length).to eq 10
+    end
+
+  end
 
   end
 end

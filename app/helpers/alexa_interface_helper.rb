@@ -12,7 +12,7 @@ module AlexaInterfaceHelper
   end
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
-  def call(call_parameters)
+  def call(call_parameters={})
     parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal" }
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
@@ -22,7 +22,7 @@ module AlexaInterfaceHelper
 
   # Run call, then select ten of the call items. Returns array with length 10 or less
   def pick10(call_list)
-    #
+    call_list[0..9]
   end
 
   # Run pick ten (or run on output of pick ten, might be more DRY), picks top result. returns top result

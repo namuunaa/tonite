@@ -4,7 +4,9 @@ class AlexaInterfaceController < ApplicationController
       f.json {
         response = AlexaRubykit::Response.new
         response.add_speech('Clearly not a date with James because you did not make the date James app')
-        render json: response.build_response
+        built = response.build_response
+        p built
+        render json: built
       }
     end
   end

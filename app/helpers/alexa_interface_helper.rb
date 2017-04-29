@@ -13,7 +13,13 @@ module AlexaInterfaceHelper
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters)
-
+    parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal" }
+    client = EventfulApi::Client.new({})
+    response = client.get('/events/search', parameters_hash)
+    # hash > "events" > "event" > array of events
+    p response
+    p '*' * 100
+    response["events"]["event"]
   end
 
   # Run call, then select ten of the call items. Returns array with length 10 or less

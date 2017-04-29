@@ -51,5 +51,23 @@ describe AlexaInterfaceHelper do
     end
   end
 
+  describe '#format_speech_for_alexa' do
+    let(:response) do
+      AlexaRubykit::Response.new
+    end
+    let(:event) do
+      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00'}
+    end
+
+    it "does not include an @speech attribute before the add_speech method is run" do
+      expect(response.speech).to be nil
+    end
+
+    it "adds an @speech attribute after the add_speech method is run" do
+      format_speech_for_alexa(response, event)
+      expect(response.speech[:text]).to eq("Hamilton is happening at DBC starting at  6:00 PM")
+    end
+
+  end
 
 end

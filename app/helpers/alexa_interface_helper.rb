@@ -32,6 +32,11 @@ module AlexaInterfaceHelper
 
   # use the alexa gem to add speech to response for alexa. doesn't need return as it's just side effects we want
   def format_speech_for_alexa(response_for_alexa, single_event)
+    event_name = single_event['title']
+    venue_name = single_event['venue_name']
+    start_date = single_event['start_time']
+    start_time = DateTime.parse(start_date).strftime('%l:%M %p')
+    response_for_alexa.add_speech("#{event_name} is happening at #{venue_name} starting at #{start_time}")
 
   end
 

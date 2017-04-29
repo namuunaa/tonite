@@ -17,8 +17,6 @@ module AlexaInterfaceHelper
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
     # hash > "events" > "event" > array of events
-    p response
-    p '*' * 100
     response["events"]["event"]
   end
 

@@ -23,6 +23,19 @@ describe AlexaInterfaceHelper do
     end
   end
 
+  describe '#select_not_started' do
+    let(:response) do
+      select_not_started(helper.call)
+    end
+
+    it 'only selects events whose start time is after the current time' do
+      response.each do |event|
+        event_start = Time.parse(event["start_time"])
+        expect(event_start).to be > Time.now
+      end
+    end
+  end
+
   describe '#pick10' do
     let(:response) do
       helper.call
@@ -55,6 +68,7 @@ describe AlexaInterfaceHelper do
     let(:response) do
       AlexaRubykit::Response.new
     end
+
     let(:event) do
       {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00'}
     end
@@ -99,9 +113,10 @@ describe AlexaInterfaceHelper do
   end
 
   describe '#generate_single_event_text_for_card' do
-      let(:event) do
-        { 'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'url' => 'http://www.hamiltonevent.com' }
-      end
+    let(:event) do
+      { 'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'url' => 'http://www.hamiltonevent.com' }
+    end
+
     it 'formats a string with the event details' do
       expect(generate_single_event_text_for_card(event)).to eq("Event: Hamilton \n Venue: DBC \n Time:  6:00 PM \n Description: We don\'t have any details on this event \n More Info: http://www.hamiltonevent.com")
     end

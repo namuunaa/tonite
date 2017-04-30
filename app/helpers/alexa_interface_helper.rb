@@ -4,7 +4,8 @@ module AlexaInterfaceHelper
   def create_response(call_parameters)
     response_for_alexa = AlexaRubykit::Response.new
     response = call(call_parameters)
-    top_ten = pick10(response)
+    not_started = select_not_started(response)
+    top_ten = pick10(not_started)
     top_one = pick1(top_ten)
     format_speech_for_alexa(response_for_alexa, top_one)
     format_text_for_alexa(response_for_alexa, top_ten)
@@ -20,9 +21,16 @@ module AlexaInterfaceHelper
     response["events"]["event"]
   end
 
+  #limit the selection to events that have not yet started
+  def select_not_started(call_list)
+    call_list.select do |event|
+      Time.parse(event["start_time"]).future?
+    end
+  end
+
   # Run call, then select ten of the call items. Returns array with length 10 or less
-  def pick10(call_list)
-    call_list[0..9]
+  def pick10(events_list)
+    events_list[0..9]
   end
 
   # Run pick ten (or run on output of pick ten, might be more DRY), picks top result. returns top result

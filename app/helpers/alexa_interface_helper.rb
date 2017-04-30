@@ -72,6 +72,11 @@ module AlexaInterfaceHelper
   def format_html_text_to_string(html_text)
     escaped_br_text = html_text.gsub("<br>", "-=-=-0-=")
     text_with_quotes = Nokogiri::HTML(escaped_br_text).text
-    text_with_quotes.gsub("-=-=-0-=", "\n")
+    formatted_text = text_with_quotes.gsub("-=-=-0-=", "\n")
+    if formatted_text.length > 500
+      formatted_text[(0...500)] + "..."
+    else
+      formatted_text
+    end
   end
 end

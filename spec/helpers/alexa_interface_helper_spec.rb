@@ -78,6 +78,12 @@ describe AlexaInterfaceHelper do
       alexa_text = format_html_text_to_string(html_text)
       expect(alexa_text).to eq("\nSouvenir is his band's most expansive album to date, dishing up everything from the West Coast\ncountry-rock of \"California\" to the front-porch folk of \"Mama Sunshine, Daddy's Rain.\"")
     end
+
+    it 'clips descriptions longer than 500 characters down to 500 + ...' do
+      desc = "a" * 600
+      expect(format_html_text_to_string(desc).length).to eq(503)
+      expect(format_html_text_to_string(desc)[(-3..-1)]).to eq("...")
+    end
   end
 
   describe '#find_formatted_description' do

@@ -41,7 +41,21 @@ module AlexaInterfaceHelper
 
   # use the alexa gem to add text cards to give to alexa's companion app. doesn't need return as it's just side effects we want
   def format_text_for_alexa(response_for_alexa, top_ten_events)
+    content_for_alexa = top_ten_events.reduce("") do |total_string, event|
+      total_string + "\n \n" + generate_single_event_text_for_card(event)
+    end
+    # We'd like to use Standard cards so we can eventually include images but the alexa wants text as an argument instead of content for a standard card and the gem doesn't do that. Thus we have to use a simple card
+    response_for_alexa.add_card('Simple', 'Top events for tonight!', nil, content_for_alexa)
+  end
 
+  def generate_single_event_text_for_card(event)
+    event_name = event['title']
+    venue_name = event['venue_name']
+    start_date = event['start_time']
+    url = event['url']
+    description = find_formatted_description(event)
+    start_time = DateTime.parse(start_date).strftime('%l:%M %p')
+    "Event: #{event_name} \n Venue: #{venue_name} \n Time: #{start_time} \n Description: #{description} \n More Info: #{url}"
   end
 
   # take care of edge case where there's no description within the event hash

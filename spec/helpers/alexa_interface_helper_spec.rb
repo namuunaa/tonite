@@ -100,4 +100,8 @@ describe AlexaInterfaceHelper do
       expect(generate_single_event_text_for_card(event)).to eq("Event: Hamilton \n Venue: DBC \n Time:  6:00 PM \n Description: We don\'t have any details on this event \n More Info: http://www.hamiltonevent.com")
     end
   end
+
+  xdescribe '#format_text_for_alexa' do
+
+  end
 end

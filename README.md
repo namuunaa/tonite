@@ -56,3 +56,7 @@ branch. Pull requests are warmly welcome.
 
 This project is licensed under [MIT license](./LICENSE)
 
+## Helpful Resources
+
+ * [Primer on the grammar for Alexa custom skills](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/supported-phrases-to-begin-a-conversation)
+ * [JSON Interface for Custom Skills](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interface-referenceg)

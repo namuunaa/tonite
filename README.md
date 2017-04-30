@@ -1,5 +1,3 @@
-# README
-
 # Tonite
 
 Tonite is an event recommendation app that allows users to use Alexa to find an
@@ -30,7 +28,7 @@ rails server
 ### Connecting the Skill and Server
 
 In the Alexa Skill configuration menu paste the location of your server in the
-endpoint field. It should be something like ```https://your-domain-here/alexa_interface`.
+endpoint field. It should be something like `https://your-domain-here/alexa_interface`.
 
 ## Tech Stack
 

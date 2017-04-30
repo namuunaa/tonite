@@ -14,7 +14,7 @@ module AlexaInterfaceHelper
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
-    parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal", page_size: 30, change_multi_day_start: true }
+    parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal", page_size: 30, change_multi_day_start: "true" }
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
     # hash > "events" > "event" > array of events
@@ -24,8 +24,7 @@ module AlexaInterfaceHelper
   #limit the selection to events that have not yet started or are all-day events
   def select_not_started(call_list)
     call_list.select do |event|
-      Time.parse(event["start_time"]).future?
-      # event["all_day"] != "0" || Time.parse(event["start_time"]).future?
+      Time.parse(event["start_time"]).future? || event["all_day"] != "0"
     end
   end
 

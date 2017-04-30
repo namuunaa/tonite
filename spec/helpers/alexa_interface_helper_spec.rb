@@ -23,6 +23,23 @@ describe AlexaInterfaceHelper do
     end
   end
 
+  describe '#select_not_started' do
+    let(:response) do
+      select_not_started(helper.call)
+    end
+
+    it 'only selects events whose start time is after the current time' do
+      response.each do |event|
+        event_start = Time.parse(event["start_time"])
+        expect(event_start).to be > Time.now
+      end
+    end
+
+    it 'includes all-day events in the output' do
+      expect(select_not_started([{"watching_count"=>nil, "olson_path"=>"America/Los_Angeles", "calendar_count"=>nil, "comment_count"=>nil, "region_abbr"=>"CA", "postal_code"=>"94117", "going_count"=>nil, "all_day"=>"2", "latitude"=>"37.7679471", "groups"=>nil, "url"=>"http://sanfrancisco.eventful.com/events/drama-b-ce12nd-cm25th-/E0-001-098365434-7?utm_source=apis&utm_medium=apim&utm_campaign=apic", "id"=>"E0-001-098365434-7", "privacy"=>"1", "city_name"=>"San Francisco", "link_count"=>nil, "longitude"=>"-122.4466472", "country_name"=>"United States", "country_abbr"=>"USA", "region_name"=>"California", "start_time"=>"2017-04-30 00:00:00", "tz_id"=>nil, "description"=>nil, "modified"=>"2016-12-06 06:04:46", "venue_display"=>"1", "tz_country"=>nil, "performers"=>{"performer"=>{"creator"=>"Drama5", "linker"=>"evdb", "name"=>"Drama B", "url"=>"http://eventful.com/performers/drama-b-/P0-001-000120213-6?utm_source=apis&utm_medium=apim&utm_campaign=apic", "id"=>"P0-001-000120213-6", "short_bio"=>"Best Rapper"}}, "title"=>"Drama B - CE1/2nd to CM2/5th", "venue_address"=>"755 Ashbury St", "geocode_type"=>"EVDB Geocoder", "tz_olson_path"=>nil, "recur_string"=>nil, "calendars"=>nil, "owner"=>"evdb", "going"=>nil, "country_abbr2"=>"US", "image"=>{"small"=>{"width"=>"48", "url"=>"http://s3.evcdn.com/images/small/I0-001/000/870/918-8.jpeg_/drama-b-18.jpeg", "height"=>"48"}, "width"=>"48", "caption"=>nil, "medium"=>{"width"=>"128", "url"=>"http://s3.evcdn.com/images/medium/I0-001/000/870/918-8.jpeg_/drama-b-18.jpeg", "height"=>"128"}, "url"=>"http://s3.evcdn.com/images/small/I0-001/000/870/918-8.jpeg_/drama-b-18.jpeg", "thumb"=>{"width"=>"48", "url"=>"http://s3.evcdn.com/images/thumb/I0-001/000/870/918-8.jpeg_/drama-b-18.jpeg", "height"=>"48"}, "height"=>"48"}, "created"=>"2016-12-06 06:04:46", "venue_id"=>"V0-001-006209264-6", "tz_city"=>nil, "stop_time"=>"2017-06-06 00:00:00", "venue_name"=>"Ashbury Campus", "venue_url"=>"http://sanfrancisco.eventful.com/venues/ashbury-campus-/V0-001-006209264-6?utm_source=apis&utm_medium=apim&utm_campaign=apic"}]).length).not_to be 0
+    end
+  end
+
   describe '#pick10' do
     let(:response) do
       helper.call
@@ -55,6 +72,7 @@ describe AlexaInterfaceHelper do
     let(:response) do
       AlexaRubykit::Response.new
     end
+
     let(:event) do
       {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00'}
     end
@@ -99,9 +117,10 @@ describe AlexaInterfaceHelper do
   end
 
   describe '#generate_single_event_text_for_card' do
-      let(:event) do
-        { 'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'url' => 'http://www.hamiltonevent.com' }
-      end
+    let(:event) do
+      { 'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'url' => 'http://www.hamiltonevent.com' }
+    end
+
     it 'formats a string with the event details' do
       expect(generate_single_event_text_for_card(event)).to eq("Event: Hamilton \n Venue: DBC \n Time:  6:00 PM \n Description: We don\'t have any details on this event \n More Info: http://www.hamiltonevent.com")
     end

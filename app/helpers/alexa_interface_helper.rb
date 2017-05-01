@@ -117,7 +117,7 @@ module AlexaInterfaceHelper
 
   # use the above two pieces of information to make an amazon address api call to get the country and postal code of the user
   def make_alexa_location_api_call(device_id, consent_token)
-    HTTParty.get("https://api.amazonalexa.com/v1/devices/thisshouldfail#{device_id}/settings/address/countryAndPostalCode", headers: {"Content-Type" => "application/json", "Authorization" => "Bearer Atc|#{consent_token}"}, format: :json)
+    HTTParty.get("https://api.amazonalexa.com/v1/devices/#{device_id}/settings/address/countryAndPostalCode", headers: {"Content-Type" => "application/json", "Authorization" => "Bearer Atc|#{consent_token}"}, format: :json)
   end
 
 end

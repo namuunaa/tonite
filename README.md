@@ -5,10 +5,12 @@ event going on today for a spontaneous outing.
 
 ## Basic Use
 
-Add the skill Tonite to your Alexa account.
+Add the skill _Wing It_ to your Alexa account.
 
-_have some instructions here for the voice commands (we are planning to update
-those today)_
+Say "Alexa ask Wing It for something to do."
+
+(If the server takes too long to respond, please try again. Likely our free
+heroku server had fallen asleep.)
 
 ## Installing / Getting Started
 

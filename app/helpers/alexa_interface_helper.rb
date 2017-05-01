@@ -93,31 +93,28 @@ module AlexaInterfaceHelper
 
   # uses information from alexa's json object in request to get the zip code of the device
   def get_location
-    return {} unless params['context']
-    device_id = p get_device_id
-    consent_token = p get_consent_token
-    return {} unless consent_token
-    p "* " * 100
-    p make_alexa_location_api_call(device_id, consent_token)
+    user = User.find_by(user_id: get_user_id)
+    if user
+      {location: user.city}
+    else
+      {}
+    end
   end
 
-  # accesses params sent by alexa to get the device id needed in the api call
-  def get_device_id
-    # this nesting is pulled from the alexa website
-    # clip off the amzn1.ask.account. from the beginning of the response
-    params['context']['System']['device']['deviceId']
+  # builds a response for alexa that uses a user and tells them where the new location is set to
+  def build_city_set_response(user)
+    response = AlexaRubykit::Response.new()
+    response.add_speech("Set your city to #{user.city}")
+    response.build_response
   end
 
-  # accesses params sent by alexa to get the consent token needed in the api call
-  def get_consent_token
-    # this nesting is pulled from the alexa website
-    # clip off the Atza| from the beginning of the response
-    params['context']['System']['user']['permissions']['consentToken'][(5..-1)]
+  # accesses the json alexa sends us to find the user id of the sender
+  def get_user_id
+    params["session"]["user"]["userId"]
   end
 
-  # use the above two pieces of information to make an amazon address api call to get the country and postal code of the user
-  def make_alexa_location_api_call(device_id, consent_token)
-    HTTParty.get("https://api.amazonalexa.com/v1/devices/#{device_id}/settings/address/countryAndPostalCode",queries: {}, headers: {"Content-Type" => "application/json", "Authorization" => "Bearer Atc|#{consent_token}"}, format: :json)
+  def get_city_from_json
+    params["request"]["intent"]["slots"]["city"]["value"]
   end
 
 end

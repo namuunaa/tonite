@@ -18,3 +18,12 @@
 
 "Alexa, Wing It with me"
 
+### As a user, I want to be able to ask for help.
+
+"Alexa, ask Wing It how it works"
+
+"Alexa, help with Wing It"
+
+"Alexa, give me help with Wing It"
+
+"Alexa, ask Wing It for help"

@@ -93,6 +93,7 @@ module AlexaInterfaceHelper
 
   # uses information from alexa's json object in request to get the zip code of the device
   def get_location
+    return {} unless params['context']
     device_id = get_device_id
     consent_token = get_consent_token
     return {} unless consent_token

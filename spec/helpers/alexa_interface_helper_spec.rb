@@ -88,14 +88,32 @@ describe AlexaInterfaceHelper do
   end
 
   describe '#time_until' do
-    let(:start_time) do 
+    let(:start_time_1) do 
       DateTime.now + 1.hour + 25.minutes
+    end
+    let(:start_time_2) do 
+      DateTime.now + 2.hour + 1.minutes
+    end
+    let(:start_time_3) do 
+      DateTime.now + 3.hour + 46.minutes
+    end
+    let(:start_time_4) do 
+      DateTime.now + 0.hour + 46.minutes
+    end
+    let(:start_time_5) do 
+      DateTime.now + 3.hour + 0.minutes
     end
 
     it 'displays time left till the event' do
-      expect(time_until(start_time)).to eq("1 hours and 25 minutes")
+      expect(time_until(start_time_1)).to eq("1 hour and 25 minutes")
+      expect(time_until(start_time_2)).to eq("2 hours and 1 minute")
+      expect(time_until(start_time_3)).to eq("3 hours and 46 minutes")
+      expect(time_until(start_time_4)).to eq("46 minutes")
+      expect(time_until(start_time_5)).to eq("3 hours")
     end
+
   end
+
   describe '#format_html_text_to_string' do
     let(:html_text) do
       "<br>Souvenir is his band&#39;s most expansive album to date, dishing up everything from the West Coast<br>country-rock of &quot;California&quot; to the front-porch folk of &quot;Mama Sunshine, Daddy&#39;s Rain.&quot;"

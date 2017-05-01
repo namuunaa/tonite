@@ -49,7 +49,17 @@ module AlexaInterfaceHelper
     time_until = event_total_minute - current_total_minute
     hour_until = time_until / 60
     minute_until = time_until % 60
-    "#{hour_until} hours and #{minute_until} minutes"
+    if hour_until == 1
+      "#{hour_until} hour and #{minute_until} minutes"
+    elsif minute_until == 1
+      "#{hour_until} hours and #{minute_until} minute"
+    elsif hour_until == 0
+      "#{minute_until} minutes"
+    elsif minute_until == 0
+      "#{hour_until} hours"
+    else
+      "#{hour_until} hours and #{minute_until} minutes"
+    end
   end
 
   # use the alexa gem to add speech to response for alexa. doesn't need return as it's just side effects we want

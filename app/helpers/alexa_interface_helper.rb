@@ -14,6 +14,9 @@ module AlexaInterfaceHelper
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
     parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal" }
+    if call_parameters['location']
+      parameters_hash[:location] = call_parameters['location']
+    end
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
     # hash > "events" > "event" > array of events
@@ -79,4 +82,25 @@ module AlexaInterfaceHelper
       formatted_text
     end
   end
+
+  def get_location
+    device_id = get_device_id
+    consent_token = get_consent_token
+    return {} unless consent_token
+    location_hash = make_alexa_location_api_call(device_id, consent_token)
+    format_location(location_hash)
+  end
+
+  def get_device_id
+
+  end
+
+  def get_consent_token
+
+  end
+
+  def make_alexa_location_api_call(device_id, consent_token)
+
+  end
+
 end

@@ -1,7 +1,6 @@
 # User Stories
 
-## As a user, I want to be able to get recommendations for
-events in my area happening today.
+### As a user, I want to be able to get recommendations for events in my area happening today.
 
 "Alexa, ask Wing It for something to do"
 

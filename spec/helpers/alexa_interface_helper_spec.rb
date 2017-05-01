@@ -8,9 +8,6 @@ describe AlexaInterfaceHelper do
       expect(response[0]).to be_a_kind_of(Hash)
     end
 
-    xit "makes an API call" do
-    end
-
     it "returns events that are occurring today" do
       response = helper.call({})
       # Check "start_time" for each event in the array
@@ -115,19 +112,23 @@ describe AlexaInterfaceHelper do
   end
 
   describe '#format_html_text_to_string' do
-    let(:html_text) do
-      "<br>Souvenir is his band&#39;s most expansive album to date, dishing up everything from the West Coast<br>country-rock of &quot;California&quot; to the front-porch folk of &quot;Mama Sunshine, Daddy&#39;s Rain.&quot;"
+    describe '#format_html' do
+      let(:html_text) do
+        "<br>Souvenir is his band&#39;s most expansive album to date, dishing up everything from the West Coast<br>country-rock of &quot;California&quot; to the front-porch folk of &quot;Mama Sunshine, Daddy&#39;s Rain.&quot;"
+      end
+
+      it 'removes html tags and formats into alexa writable string' do
+        alexa_text = format_html_text_to_string(html_text)
+        expect(alexa_text).to eq("\nSouvenir is his band's most expansive album to date, dishing up everything from the West Coast\ncountry-rock of \"California\" to the front-porch folk of \"Mama Sunshine, Daddy's Rain.\"")
+      end
     end
 
-    it 'removes html tags and formats into alexa writable string' do
-      alexa_text = format_html_text_to_string(html_text)
-      expect(alexa_text).to eq("\nSouvenir is his band's most expansive album to date, dishing up everything from the West Coast\ncountry-rock of \"California\" to the front-porch folk of \"Mama Sunshine, Daddy's Rain.\"")
-    end
-
-    it 'clips descriptions longer than 500 characters down to 500 + ...' do
-      desc = "a" * 600
-      expect(format_html_text_to_string(desc).length).to eq(503)
-      expect(format_html_text_to_string(desc)[(-3..-1)]).to eq("...")
+    describe '#clip' do
+      it 'clips descriptions longer than 500 characters down to 500 + ...' do
+        desc = "a" * 600
+        expect(clip(desc).length).to eq(503)
+        expect(clip(desc)[(-3..-1)]).to eq("...")
+      end
     end
   end
 
@@ -153,7 +154,32 @@ describe AlexaInterfaceHelper do
     end
   end
 
-  xdescribe '#format_text_for_alexa' do
+  # describe '#format_text_for_alexa'
 
+  describe '#get_location' do
+    it 'will return an empty hash if there is no user with the appropriate id' do
+      controller.params['session'] = {'user' => {'userId' => 'my_id'}}
+      expect(get_location).to eq({})
+    end
+
+    it 'will return a hash with location: "city" if there is such a user in the db' do
+      User.create(user_id: 'my_id', city: 'my_city')
+      controller.params['session'] = {'user' => {'userId' => 'my_id'}}
+      expect(get_location).to eq({location: 'my_city'})
+    end
+  end
+
+  describe '#get_user_id' do
+    it 'takes a user_id out of params' do
+      controller.params['session'] = {'user' => {'userId' => 'my_id'}}
+      expect(get_user_id).to eq('my_id')
+    end
+  end
+
+  describe '#get_city_from_json' do
+    it 'takes a city out of params' do
+      controller.params['request'] = {'intent' => {'slots' => {'city' => {'value' => 'my_city'}}}}
+      expect(get_city_from_json).to eq('my_city')
+    end
   end
 end

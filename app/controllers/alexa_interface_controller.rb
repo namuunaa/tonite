@@ -7,9 +7,9 @@ class AlexaInterfaceController < ApplicationController
 
           when "WingItIntent"
             render json: create_response(get_location)
-          when "SetAddressIntent"
+          when "SetCityIntent"
             response = AlexaRubykit::Response.new()
-            response.add_speech("hit address intent")
+            response.add_speech("hit city intent")
             render json: response.build_response
           end
         else

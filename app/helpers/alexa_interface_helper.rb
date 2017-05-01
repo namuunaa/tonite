@@ -15,7 +15,7 @@ module AlexaInterfaceHelper
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
     parameters_hash = { location: "New York", date: "Today", sort_order: "popularity", mature: "normal", page_size: 30, change_multi_day_start: "true" }
-    if call_parameters['postalCode']
+    if p call_parameters['postalCode']
       parameters_hash[:location] = call_parameters['postalCode']
     end
     client = EventfulApi::Client.new({})
@@ -116,28 +116,30 @@ module AlexaInterfaceHelper
   # uses information from alexa's json object in request to get the zip code of the device
   def get_location
     return {} unless params['context']
-    device_id = get_device_id
-    consent_token = get_consent_token
+    device_id = p get_device_id
+    consent_token = p get_consent_token
     return {} unless consent_token
-    make_alexa_location_api_call(device_id, consent_token)
+    p "* " * 100
+    p make_alexa_location_api_call(device_id, consent_token)
   end
 
   # accesses params sent by alexa to get the device id needed in the api call
   def get_device_id
     # this nesting is pulled from the alexa website
-    params['context']['System']['device']['device_id']
+    # clip off the amzn1.ask.account. from the beginning of the response
+    params['context']['System']['device']['deviceId']
   end
 
   # accesses params sent by alexa to get the consent token needed in the api call
   def get_consent_token
     # this nesting is pulled from the alexa website
-    params['context']['System']['user']['permissions']['consentToken']
+    # clip off the Atza| from the beginning of the response
+    params['context']['System']['user']['permissions']['consentToken'][(5..-1)]
   end
 
   # use the above two pieces of information to make an amazon address api call to get the country and postal code of the user
   def make_alexa_location_api_call(device_id, consent_token)
-    HTTParty.get("https://api.amazonalexa.com/v1/devices/#{device_id}/settings/address/countryAndPostalCode
-", headers: {"Authorization" => "Bearer Atc|#{consent_token}"})
+    HTTParty.get("https://api.amazonalexa.com/v1/devices/#{device_id}/settings/address/countryAndPostalCode",queries: {}, headers: {"Content-Type" => "application/json", "Authorization" => "Bearer Atc|#{consent_token}"}, format: :json)
   end
 
 end

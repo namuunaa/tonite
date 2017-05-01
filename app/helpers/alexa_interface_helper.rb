@@ -81,9 +81,17 @@ module AlexaInterfaceHelper
   # remove br tags and &quot; formating and parse it into alexa writable strings
   # can refactor with sanitize for nokogiri
   def format_html_text_to_string(html_text)
+    formatted_text = format_html(html_text)
+    clip(formatted_text)
+  end
+
+  def format_html(html_text)
     escaped_br_text = html_text.gsub("<br>", "-=-=-0-=")
     text_with_quotes = Nokogiri::HTML(escaped_br_text).text
-    formatted_text = text_with_quotes.gsub("-=-=-0-=", "\n")
+    text_with_quotes.gsub("-=-=-0-=", "\n")
+  end
+
+  def clip(formatted_text)
     if formatted_text.length > 500
       formatted_text[(0...500)] + "..."
     else

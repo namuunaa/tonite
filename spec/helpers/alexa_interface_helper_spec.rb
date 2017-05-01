@@ -8,9 +8,6 @@ describe AlexaInterfaceHelper do
       expect(response[0]).to be_a_kind_of(Hash)
     end
 
-    xit "makes an API call" do
-    end
-
     it "returns events that are occurring today" do
       response = helper.call({})
       # Check "start_time" for each event in the array
@@ -125,7 +122,22 @@ describe AlexaInterfaceHelper do
     end
   end
 
-  xdescribe '#format_text_for_alexa' do
+  # describe '#format_text_for_alexa'
 
+  # describe '#format_html'
+  # describe '#clip'
+  # describe '#get_location'
+  # describe '#build_city_set_response'
+  describe '#get_user_id' do
+    it 'takes a user_id out of params' do
+      controller.params['session'] = {'user' => {'userId' => 'my_id'}}
+      expect(get_user_id).to eq('my_id')
+    end
+  end
+  describe '#get_city_from_json' do
+    it 'takes a city out of params' do
+      controller.params['request'] = {'intent' => {'slots' => {'city' => {'value' => 'my_city'}}}}
+      expect(get_city_from_json).to eq('my_city')
+    end
   end
 end

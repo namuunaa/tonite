@@ -2,6 +2,7 @@ class AlexaInterfaceController < ApplicationController
   def recommend
     respond_to do |f|
       f.json {
+        p params
         if params["request"]["intent"]
           case params["request"]["intent"]["name"]
 
@@ -10,12 +11,11 @@ class AlexaInterfaceController < ApplicationController
           when "SetCityIntent"
             city = params["request"]["intent"]["slots"]["city"]["value"]
             user_id = params["session"]["user"]["userId"]
-            user = User.find_or_initialize_by(user_id: user_id)
-            user.city = city
-            p user.valid?
-            user.save
+            @user = User.find_or_initialize_by(user_id: user_id)
+            @user.city = city
+            @user.save
             response = AlexaRubykit::Response.new()
-            response.add_speech("Set your city to #{user.city}")
+            response.add_speech("Set your city to #{@user.city}")
             render json: response.build_response
           end
         else

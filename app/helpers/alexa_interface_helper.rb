@@ -105,7 +105,7 @@ module AlexaInterfaceHelper
   def get_device_id
     # this nesting is pulled from the alexa website
     # clip off the amzn1.ask.account. from the beginning of the response
-    params['context']['System']['device']['deviceId'][(17..-1)]
+    params['context']['System']['device']['deviceId']
   end
 
   # accesses params sent by alexa to get the consent token needed in the api call

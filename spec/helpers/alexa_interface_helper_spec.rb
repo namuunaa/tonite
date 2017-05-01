@@ -82,8 +82,36 @@ describe AlexaInterfaceHelper do
 
     it "adds an @speech attribute after the add_speech method is run" do
       format_speech_for_alexa(response, event)
-      expect(response.speech[:text]).to eq("Hamilton is happening at DBC starting at  6:00 PM")
+      time = time_until(DateTime.parse(event['start_time']))
+      expect(response.speech[:text]).to eq("Hamilton is happening at DBC starting at  6:00 PM. You have #{time} to get ready.")
     end
+  end
+
+  describe '#time_until' do
+    let(:start_time_1) do 
+      DateTime.now + 1.hour + 25.minutes
+    end
+    let(:start_time_2) do 
+      DateTime.now + 2.hour + 1.minutes
+    end
+    let(:start_time_3) do 
+      DateTime.now + 3.hour + 46.minutes
+    end
+    let(:start_time_4) do 
+      DateTime.now + 0.hour + 46.minutes
+    end
+    let(:start_time_5) do 
+      DateTime.now + 3.hour + 0.minutes
+    end
+
+    it 'displays time left till the event' do
+      expect(time_until(start_time_1)).to eq("1 hour and 25 minutes")
+      expect(time_until(start_time_2)).to eq("2 hours and 1 minute")
+      expect(time_until(start_time_3)).to eq("3 hours and 46 minutes")
+      expect(time_until(start_time_4)).to eq("46 minutes")
+      expect(time_until(start_time_5)).to eq("3 hours")
+    end
+
   end
 
   describe '#format_html_text_to_string' do

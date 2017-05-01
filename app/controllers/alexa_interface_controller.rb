@@ -1,7 +1,7 @@
 class AlexaInterfaceController < ApplicationController
   def recommend
     respond_to do |f|
-      f.json {
+      f.json do
         if params["request"]["intent"]
           case params["request"]["intent"]["name"]
 
@@ -18,7 +18,7 @@ class AlexaInterfaceController < ApplicationController
         else
           render json: create_response(get_location)
         end
-      }
+      end
     end
   end
 end

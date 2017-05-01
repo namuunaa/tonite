@@ -14,9 +14,9 @@ module AlexaInterfaceHelper
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
-    parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal", page_size: 30, change_multi_day_start: "true" }
-    if call_parameters['location']
-      parameters_hash[:location] = call_parameters['location']
+    parameters_hash = { location: "New York", date: "Today", sort_order: "popularity", mature: "normal", page_size: 30, change_multi_day_start: "true" }
+    if call_parameters['postalCode']
+      parameters_hash[:location] = call_parameters['postalCode']
     end
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
@@ -91,24 +91,30 @@ module AlexaInterfaceHelper
     end
   end
 
+  # uses information from alexa's json object in request to get the zip code of the device
   def get_location
     device_id = get_device_id
     consent_token = get_consent_token
     return {} unless consent_token
-    location_hash = make_alexa_location_api_call(device_id, consent_token)
-    format_location(location_hash)
+    make_alexa_location_api_call(device_id, consent_token)
   end
 
+  # accesses params sent by alexa to get the device id needed in the api call
   def get_device_id
-
+    # this nesting is pulled from the alexa website
+    params['context']['System']['device']['device_id']
   end
 
+  # accesses params sent by alexa to get the consent token needed in the api call
   def get_consent_token
-
+    # this nesting is pulled from the alexa website
+    params['context']['System']['user']['permissions']['consentToken']
   end
 
+  # use the above two pieces of information to make an amazon address api call to get the country and postal code of the user
   def make_alexa_location_api_call(device_id, consent_token)
-
+    HTTParty.get("https://api.amazonalexa.com/v1/devices/#{device_id}/settings/address/countryAndPostalCode
+", headers: {"Authorization" => "Bearer Atc|#{consent_token}"})
   end
 
 end

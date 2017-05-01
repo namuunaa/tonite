@@ -111,7 +111,8 @@ module AlexaInterfaceHelper
   # accesses params sent by alexa to get the consent token needed in the api call
   def get_consent_token
     # this nesting is pulled from the alexa website
-    params['context']['System']['user']['permissions']['consentToken']
+    # clip off the Atza| from the beginning of the response
+    params['context']['System']['user']['permissions']['consentToken'][(5..-1)]
   end
 
   # use the above two pieces of information to make an amazon address api call to get the country and postal code of the user

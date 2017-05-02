@@ -3,7 +3,7 @@ module AlexaInterfaceHelper
   # uses everything and returns a full response object to send to alexa
   def create_response(call_parameters)
     response_for_alexa = AlexaRubykit::Response.new
-    response = call(call_parameters)
+    response = p call(call_parameters)
     not_started = select_not_started(response)
     top_ten = pick10(not_started)
     top_one = pick1(top_ten)

@@ -4,10 +4,7 @@ module AlexaInterfaceHelper
   def create_response(call_parameters)
     response_for_alexa = AlexaRubykit::Response.new
     response = call(call_parameters)
-    p "*" * 60
-    p response
     not_started = select_not_started(response)
-    p not_started
     top_ten = pick10(not_started)
     top_one = pick1(top_ten)
     format_speech_for_alexa(response_for_alexa, top_one)
@@ -19,7 +16,7 @@ module AlexaInterfaceHelper
   def call(call_parameters={})
     # page size is 10 for testing; should be ~500 for production
     if Rails.env.production?
-      page_size = "30"
+      page_size = "500"
     else
       page_size = "10"
     end
@@ -40,13 +37,7 @@ module AlexaInterfaceHelper
       event["all_day"] && event["start_time"]
     end
     call_list = call_list.select do |event|
-      p "======"
-      p "event all day: ", event["all_day"]
-      p "event start time: ", event["start_time"]
-      p "event all day boolean: ", event["all_day"] != "0"
-      p "event in future: ", Time.parse(event["start_time"]).future?
-      p Time.now
-      p event["all_day"] != "0" || Time.parse(event["start_time"]).future?
+      event["all_day"] != "0" || Time.parse(event["start_time"]).future?
     end
     call_list
   end

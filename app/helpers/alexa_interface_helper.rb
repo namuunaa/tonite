@@ -14,7 +14,14 @@ module AlexaInterfaceHelper
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
-    parameters_hash = { location: "New York", date: "Today", sort_order: "popularity", mature: "normal", page_size: 30, change_multi_day_start: "true" }
+    # page size is 10 for testing; should be ~1000 for production
+    if Rails.env.production?
+      page_size = "1000"
+    else
+      page_size = "10"
+    end
+
+    parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal", page_size: page_size, change_multi_day_start: "true" }
     if call_parameters[:location]
       parameters_hash[:location] = call_parameters[:location]
     end

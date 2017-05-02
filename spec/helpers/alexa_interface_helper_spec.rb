@@ -25,44 +25,46 @@ describe AlexaInterfaceHelper do
       select_not_started(helper.call)
     end
 
-    let(:all_day_test_response) do
-      events = [{'title' => 'All Day 0 Event', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "1"},
-      {'title' => 'All Day 1 Event', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "0"},
-      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "1"},
-      {'title' => 'All Day 2 Event', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "2"}]
-
-      select_not_started(events)
+    let(:all_day_test_events) do
+      events = [
+      {'title' => 'All Day 0 Event', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 19:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "0"},
+      {'title' => 'All Day 1 Event', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 00:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "1"},
+      {'title' => 'All Day 2 Event', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 00:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "2"}
+      ]
     end
 
 
     it 'only selects events whose start time is after the current time' do
+      Time.zone = 'America/Los_Angeles'
+
       api_response.each do |event|
         event_start = Time.parse(event["start_time"])
-        event_not_started = (event_start > Time.now || event['all_day'] != "0" )
+        event_not_started = (event_start > Time.zone.now || event['all_day'] != "0" )
         expect(event_not_started).to be true
       end
     end
 
-    it 'selects all-day events if the current time is after 6 pm' do
-      current_time = Time.parse(Time.now.strftime('%F') + " 17:59:00")
+    it 'selects all-day events if the current time is before 6 pm' do
+      Time.zone = 'America/Los_Angeles'
+      current_time = Time.parse("2017-04-29 17:59:00")
 
-      allow(Time).to receive(:now).and_return(current_time)
+      allow(Time.zone).to receive(:now).and_return(current_time)
 
-      all_day_test_response.each do |event|
-
-        expect(all_day_test_response.length).to be 3
-      end
+      expect(select_not_started(all_day_test_events).length).to eq 3
     end
 
     it 'does not select all-day events if the current time is 6pm or later' do
-      current_time = Time.parse(Time.now.strftime('%F') + " 18:00:00")
+      Time.zone = 'America/Los_Angeles'
+      current_time = Time.parse("2017-04-29 18:00:00")
 
-      allow(Time).to receive(:now).and_return(current_time)
+      allow(Time.zone).to receive(:now).and_return(current_time)
 
-      all_day_test_response.each do |event|
-          not_all_day =  event['all_day'] != "0"
+      select_not_started(all_day_test_events).each do |event|
+          not_all_day =  event['all_day'] == "0"
           expect(not_all_day).to be true
       end
+
+      expect(select_not_started(all_day_test_events).length).to eq 1
     end
   end
 

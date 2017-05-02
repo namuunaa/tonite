@@ -38,7 +38,7 @@ module AlexaInterfaceHelper
     # end
     call_list = call_list.select do |event|
       Time.zone = event['olson_path']
-      event["all_day"] != "0" && Time.now.strftime('%R') >= "18:00" || Time.zone.parse(event["start_time"]).future?
+      (event["all_day"] != "0" && Time.zone.now.strftime('%R') < "18:00") || Time.zone.parse(event["start_time"]).future?
     end
     # call_list
   end

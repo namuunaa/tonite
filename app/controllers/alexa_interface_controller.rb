@@ -7,7 +7,6 @@ class AlexaInterfaceController < ApplicationController
           case params["request"]["intent"]["name"]
 
           when "WingItIntent"
-            p Time.now
             render json: create_response(get_location)
           when "SetCityIntent"
             city = get_city_from_json

@@ -2,6 +2,7 @@ module AlexaInterfaceHelper
 
   # uses everything and returns a full response object to send to alexa
   def create_response(call_parameters)
+    starter_time = Time.now
     response_for_alexa = AlexaRubykit::Response.new
     response = call(call_parameters)
     not_started = select_not_started(response)
@@ -9,7 +10,7 @@ module AlexaInterfaceHelper
     top_one = pick1(top_ten)
     format_speech_for_alexa(response_for_alexa, top_one)
     format_text_for_alexa(response_for_alexa, top_ten)
-    p Time.now
+    p Time.now - starter_time
     response_for_alexa.build_response
   end
 
@@ -170,7 +171,7 @@ module AlexaInterfaceHelper
   # builds a response for alexa that uses a user and tells them where the new location is set to
   def build_city_set_response(user)
     response = AlexaRubykit::Response.new()
-    response.add_speech("Set your city to #{user.city}")
+    response.add_speech("I set your city to #{user.city}")
     response.build_response
   end
 

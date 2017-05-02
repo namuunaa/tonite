@@ -228,11 +228,17 @@ describe AlexaInterfaceHelper do
 
   describe '#generate_single_event_text_for_card' do
     let(:event) do
-      { 'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'url' => 'http://www.hamiltonevent.com' }
+      { 'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'all_day' => "0", 'url' => 'http://www.hamiltonevent.com' }
     end
 
     it 'formats a string with the event details' do
       expect(generate_single_event_text_for_card(event)).to eq("Event: Hamilton \n Venue: DBC \n Time:  6:00 PM \n Description: We don\'t have any details on this event \n More Info: http://www.hamiltonevent.com")
+    end
+
+    it 'displays the time as "All day" for all-day events' do
+      event['all_day'] = "1"
+
+      expect(generate_single_event_text_for_card(event)).to eq("Event: Hamilton \n Venue: DBC \n Time: All day \n Description: We don\'t have any details on this event \n More Info: http://www.hamiltonevent.com")
     end
   end
 

@@ -122,7 +122,13 @@ module AlexaInterfaceHelper
     start_date = event['start_time']
     url = event['url']
     description = find_formatted_description(event)
-    start_time = DateTime.parse(start_date).strftime('%l:%M %p')
+
+    if event["all_day"] == "0"
+      start_time = DateTime.parse(start_date).strftime('%l:%M %p')
+    else
+      start_time = "All day"
+    end
+
     "Event: #{event_name} \n Venue: #{venue_name} \n Time: #{start_time} \n Description: #{description} \n More Info: #{url}"
   end
 
@@ -181,5 +187,5 @@ module AlexaInterfaceHelper
   def get_city_from_json
     params["request"]["intent"]["slots"]["city"]["value"]
   end
-  
+
 end

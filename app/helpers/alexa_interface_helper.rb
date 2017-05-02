@@ -4,7 +4,10 @@ module AlexaInterfaceHelper
   def create_response(call_parameters)
     response_for_alexa = AlexaRubykit::Response.new
     response = call(call_parameters)
+    p "*" * 60
+    p response
     not_started = select_not_started(response)
+    p not_started
     top_ten = pick10(not_started)
     top_one = pick1(top_ten)
     format_speech_for_alexa(response_for_alexa, top_one)

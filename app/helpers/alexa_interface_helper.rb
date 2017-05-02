@@ -16,7 +16,7 @@ module AlexaInterfaceHelper
   def call(call_parameters={})
     # page size is 10 for testing; should be ~500 for production
     if Rails.env.production?
-      page_size = "500"
+      page_size = "150"
     else
       page_size = "10"
     end
@@ -36,8 +36,8 @@ module AlexaInterfaceHelper
     # call_list = call_list.select do |event|
     #   event["all_day"] && event["start_time"]
     # end
+    Time.zone = event['olson_path']
     call_list = call_list.select do |event|
-      Time.zone = event['olson_path']
       (event["all_day"] != "0" && Time.zone.now.strftime('%R') < "18:00") || Time.zone.parse(event["start_time"]).future?
     end
     # call_list
@@ -181,5 +181,5 @@ module AlexaInterfaceHelper
   def get_city_from_json
     params["request"]["intent"]["slots"]["city"]["value"]
   end
-  
+
 end

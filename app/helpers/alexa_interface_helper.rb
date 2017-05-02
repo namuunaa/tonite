@@ -2,7 +2,6 @@ module AlexaInterfaceHelper
 
   # uses everything and returns a full response object to send to alexa
   def create_response(call_parameters)
-    starter_time = Time.now
     response_for_alexa = AlexaRubykit::Response.new
     response = call(call_parameters)
     not_started = select_not_started(response)
@@ -10,7 +9,6 @@ module AlexaInterfaceHelper
     top_one = pick1(top_ten)
     format_speech_for_alexa(response_for_alexa, top_one)
     format_text_for_alexa(response_for_alexa, top_ten)
-    p Time.now - starter_time
     response_for_alexa.build_response
   end
 

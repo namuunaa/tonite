@@ -43,7 +43,7 @@ module AlexaInterfaceHelper
       p "======"
       p event["all_day"]
       p event["start_time"]
-      event["all_day"] != "0" || Time.parse(event["start_time"]).future?
+      p event["all_day"] != "0" || Time.parse(event["start_time"]).future?
     end
     call_list
   end

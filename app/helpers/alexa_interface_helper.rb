@@ -164,5 +164,5 @@ module AlexaInterfaceHelper
   def get_city_from_json
     params["request"]["intent"]["slots"]["city"]["value"]
   end
-
+  
 end

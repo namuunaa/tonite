@@ -5,11 +5,12 @@ RSpec.describe AlexaInterfaceController, :type => :controller do
     it 'accepts returns a json object to a json post request' do
       json = { :format => 'json', :application => { :name => "foo", :description => "bar" }, :request => {:foo => 'bar'} }
       post :recommend, json
-      expect(response.header['Content-Type']).to include 'application/json'
     end
 
     it 'will set a user location when intent is SetCityIntent' do
-      json = { :format => 'json', :application => { :name => "foo", :description => "bar" }, :request => { :intent => { :name => 'SetCityIntent', :slots => { :city => { :value => "City" } } } }, :session => { :user => { :user_id => "userId"} } }
+      json = { 'format' => 'json',
+               'request' => { 'intent' => { 'name' => 'SetCityIntent', 'slots' => { 'city' => { 'value' => "City" } } } },
+               "session" => { 'user' => { 'userId' => "userId"} } }
       post :recommend, json
       expect(assigns(:user)).to be_kind_of(User)
       expect(assigns(:user).user_id).to eq("userId")

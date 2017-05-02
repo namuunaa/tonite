@@ -85,19 +85,19 @@ describe AlexaInterfaceHelper do
   end
 
   describe '#time_until' do
-    let(:start_time_1) do 
+    let(:start_time_1) do
       DateTime.now + 1.hour + 25.minutes
     end
-    let(:start_time_2) do 
+    let(:start_time_2) do
       DateTime.now + 2.hour + 1.minutes
     end
-    let(:start_time_3) do 
+    let(:start_time_3) do
       DateTime.now + 3.hour + 46.minutes
     end
-    let(:start_time_4) do 
+    let(:start_time_4) do
       DateTime.now + 0.hour + 46.minutes
     end
-    let(:start_time_5) do 
+    let(:start_time_5) do
       DateTime.now + 3.hour + 0.minutes
     end
 
@@ -182,4 +182,13 @@ describe AlexaInterfaceHelper do
       expect(get_city_from_json).to eq('my_city')
     end
   end
+
+  xdescribe '#format_no_events_found_speech_for_alexa' do
+    let(:city) {'Brigadoon'}
+
+    it 'returns text stating that there were no events found in the city' do
+
+    end
+  end
+
 end

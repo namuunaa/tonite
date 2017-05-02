@@ -4,12 +4,12 @@ module AlexaInterfaceHelper
   def create_response(call_parameters)
     response_for_alexa = AlexaRubykit::Response.new
     response = call(call_parameters)
-    p response.length
     not_started = select_not_started(response)
     top_ten = pick10(not_started)
     top_one = pick1(top_ten)
     format_speech_for_alexa(response_for_alexa, top_one)
     format_text_for_alexa(response_for_alexa, top_ten)
+    p Time.now
     response_for_alexa.build_response
   end
 
@@ -28,7 +28,6 @@ module AlexaInterfaceHelper
     end
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
-    p response
     # hash > "events" > "event" > array of events
     response["events"]["event"]
   end

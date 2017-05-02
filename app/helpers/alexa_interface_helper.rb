@@ -14,9 +14,9 @@ module AlexaInterfaceHelper
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
-    # page size is 10 for testing; should be ~1000 for production
+    # page size is 10 for testing; should be ~500 for production
     if Rails.env.production?
-      page_size = "1000"
+      page_size = "500"
     else
       page_size = "10"
     end

@@ -17,7 +17,7 @@ module AlexaInterfaceHelper
   def call(call_parameters={})
     # page size is 10 for testing; should be ~500 for production
     if Rails.env.production?
-      page_size = "150"
+      page_size = "100"
     else
       page_size = "10"
     end

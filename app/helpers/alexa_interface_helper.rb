@@ -36,7 +36,10 @@ module AlexaInterfaceHelper
 
   #limit the selection to events that have not yet started or are all-day events
   def select_not_started(call_list)
-    call_list.reject do |event|
+    call_list = call_list.select do |event|
+      event["all_day"] && event["start_time"]
+    end
+    call_list.select do |event|
       event["all_day"] != "0" || Time.parse(event["start_time"]).future?
     end
   end

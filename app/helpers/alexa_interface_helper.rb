@@ -45,6 +45,7 @@ module AlexaInterfaceHelper
       p "event start time: ", event["start_time"]
       p "event all day boolean: ", event["all_day"] != "0"
       p "event in future: ", Time.parse(event["start_time"]).future?
+      p Time.now
       p event["all_day"] != "0" || Time.parse(event["start_time"]).future?
     end
     call_list

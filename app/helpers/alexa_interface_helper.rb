@@ -14,9 +14,16 @@ module AlexaInterfaceHelper
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
-    parameters_hash = { location: "New York", date: "Today", sort_order: "popularity", mature: "normal", page_size: 30, change_multi_day_start: "true" }
-    if p call_parameters['postalCode']
-      parameters_hash[:location] = call_parameters['postalCode']
+    # page size is 10 for testing; should be ~1000 for production
+    if Rails.env.production?
+      page_size = "1000"
+    else
+      page_size = "10"
+    end
+
+    parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal", page_size: page_size, change_multi_day_start: "true" }
+    if call_parameters[:location]
+      parameters_hash[:location] = call_parameters[:location]
     end
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
@@ -41,13 +48,35 @@ module AlexaInterfaceHelper
     ten_events.first
   end
 
+  # Takes the start time of the event and substracts from Time.now, to show hours until format
+  def time_until(event_start_date)
+    current_time = DateTime.now
+    current_total_minute = current_time.hour * 60 + current_time.minute
+    event_total_minute = event_start_date.hour * 60 + event_start_date.minute
+    time_until = event_total_minute - current_total_minute
+    hour_until = time_until / 60
+    minute_until = time_until % 60
+    if hour_until == 1
+      "#{hour_until} hour and #{minute_until} minutes"
+    elsif minute_until == 1
+      "#{hour_until} hours and #{minute_until} minute"
+    elsif hour_until == 0
+      "#{minute_until} minutes"
+    elsif minute_until == 0
+      "#{hour_until} hours"
+    else
+      "#{hour_until} hours and #{minute_until} minutes"
+    end
+  end
+
   # use the alexa gem to add speech to response for alexa. doesn't need return as it's just side effects we want
   def format_speech_for_alexa(response_for_alexa, single_event)
     event_name = single_event['title']
     venue_name = single_event['venue_name']
     start_date = single_event['start_time']
     start_time = DateTime.parse(start_date).strftime('%l:%M %p')
-    response_for_alexa.add_speech("#{event_name} is happening at #{venue_name} starting at #{start_time}")
+    time_until = time_until(DateTime.parse(start_date))
+    response_for_alexa.add_speech("#{event_name} is happening at #{venue_name} starting at #{start_time}. You have #{time_until} to get ready.")
   end
 
   # use the alexa gem to add text cards to give to alexa's companion app. doesn't need return as it's just side effects we want
@@ -81,9 +110,17 @@ module AlexaInterfaceHelper
   # remove br tags and &quot; formating and parse it into alexa writable strings
   # can refactor with sanitize for nokogiri
   def format_html_text_to_string(html_text)
+    formatted_text = format_html(html_text)
+    clip(formatted_text)
+  end
+
+  def format_html(html_text)
     escaped_br_text = html_text.gsub("<br>", "-=-=-0-=")
     text_with_quotes = Nokogiri::HTML(escaped_br_text).text
-    formatted_text = text_with_quotes.gsub("-=-=-0-=", "\n")
+    text_with_quotes.gsub("-=-=-0-=", "\n")
+  end
+
+  def clip(formatted_text)
     if formatted_text.length > 500
       formatted_text[(0...500)] + "..."
     else
@@ -93,31 +130,28 @@ module AlexaInterfaceHelper
 
   # uses information from alexa's json object in request to get the zip code of the device
   def get_location
-    return {} unless params['context']
-    device_id = p get_device_id
-    consent_token = p get_consent_token
-    return {} unless consent_token
-    p "* " * 100
-    p make_alexa_location_api_call(device_id, consent_token)
+    user = User.find_by(user_id: get_user_id)
+    if user
+      {location: user.city}
+    else
+      {}
+    end
   end
 
-  # accesses params sent by alexa to get the device id needed in the api call
-  def get_device_id
-    # this nesting is pulled from the alexa website
-    # clip off the amzn1.ask.account. from the beginning of the response
-    params['context']['System']['device']['deviceId']
+  # builds a response for alexa that uses a user and tells them where the new location is set to
+  def build_city_set_response(user)
+    response = AlexaRubykit::Response.new()
+    response.add_speech("Set your city to #{user.city}")
+    response.build_response
   end
 
-  # accesses params sent by alexa to get the consent token needed in the api call
-  def get_consent_token
-    # this nesting is pulled from the alexa website
-    # clip off the Atza| from the beginning of the response
-    params['context']['System']['user']['permissions']['consentToken'][(5..-1)]
+  # accesses the json alexa sends us to find the user id of the sender
+  def get_user_id
+    params["session"]["user"]["userId"]
   end
 
-  # use the above two pieces of information to make an amazon address api call to get the country and postal code of the user
-  def make_alexa_location_api_call(device_id, consent_token)
-    HTTParty.get("https://api.amazonalexa.com/v1/devices/#{device_id}/settings/address/countryAndPostalCode",queries: {}, headers: {"Content-Type" => "application/json", "Authorization" => "Bearer Atc|#{consent_token}"}, format: :json)
+  def get_city_from_json
+    params["request"]["intent"]["slots"]["city"]["value"]
   end
 
 end

@@ -70,7 +70,7 @@ describe AlexaInterfaceHelper do
     end
 
     let(:event) do
-      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles'}
+      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "1"}
     end
 
     it "does not include an @speech attribute before the add_speech method is run" do
@@ -80,35 +80,72 @@ describe AlexaInterfaceHelper do
     it "adds an @speech attribute after the add_speech method is run" do
       format_speech_for_alexa(response, event)
       time = time_until(event)
-      expect(response.speech[:text]).to eq("Hamilton is happening at DBC starting at  6:00 PM. You have #{time} to get ready.")
+      expect(response.speech[:text]).to be_a_kind_of(String)
+      expect(response.speech[:text]).not_to be_empty
     end
   end
 
   describe '#time_until' do
     let(:event1) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 1.hour + 25.minutes).to_s}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 1.hour + 25.minutes).to_s, 'all_day' => "0"}
     end
+
+    let(:start_time1) do
+      start_time = DateTime.parse(event1['start_time']).strftime('%l:%M %p')
+    end
+
     let(:event2) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 2.hour + 1.minutes).to_s}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 2.hour + 1.minutes).to_s, 'all_day' => "0"}
     end
+
+    let(:start_time2) do
+      start_time = DateTime.parse(event2['start_time']).strftime('%l:%M %p')
+    end
+
     let(:event3) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 3.hour + 46.minutes).to_s}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 3.hour + 46.minutes).to_s, 'all_day' => "0"}
     end
+
+    let(:start_time3) do
+      start_time = DateTime.parse(event3['start_time']).strftime('%l:%M %p')
+    end
+
     let(:event4) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 0.hour + 46.minutes).to_s}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 0.hour + 46.minutes).to_s, 'all_day' => "0"}
     end
+
+    let(:start_time4) do
+      start_time = DateTime.parse(event4['start_time']).strftime('%l:%M %p')
+    end
+
     let(:event5) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 3.hour + 0.minutes).to_s}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 3.hour + 0.minutes).to_s, 'all_day' => "0"}
+    end
+
+    let(:start_time5) do
+      start_time = DateTime.parse(event5['start_time']).strftime('%l:%M %p')
+    end
+
+    let(:event6) do
+      {'olson_path' => 'America/Los_Angeles', 'all_day' => "1"}
+    end
+
+    let(:event7) do
+      {'olson_path' => 'America/Los_Angeles','all_day' => "2"}
     end
 
     it 'displays time left till the event' do
-      expect(time_until(event1)).to eq("1 hour and 25 minutes")
-      expect(time_until(event2)).to eq("2 hours and 1 minute")
-      expect(time_until(event3)).to eq("3 hours and 46 minutes")
-      expect(time_until(event4)).to eq("46 minutes")
-      expect(time_until(event5)).to eq("3 hours")
+      expect(time_until(event1)).to eq(" starting at #{start_time1}. You have 1 hr and 25 min to get ready.")
+      expect(time_until(event2)).to eq(" starting at #{start_time2}. You have 2 hr and 1 min to get ready.")
+      expect(time_until(event3)).to eq(" starting at #{start_time3}. You have 3 hr and 46 min to get ready.")
+      expect(time_until(event4)).to eq(" starting at #{start_time4}. You have 46 min to get ready.")
+      expect(time_until(event5)).to eq(" starting at #{start_time5}. You have 3 hr to get ready.")
     end
 
+    it 'informs the user of an all-day event without displaying the start time and time to get ready' do
+      expect(time_until(event6)).to eq(". This is an all-day event.")
+      expect(time_until(event7)).to eq(". This is an all-day event.")
+    end
   end
 
   describe '#format_html_text_to_string' do

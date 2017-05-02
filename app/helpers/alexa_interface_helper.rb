@@ -61,6 +61,7 @@ module AlexaInterfaceHelper
       Time.zone = event['olson_path']
       current_time = DateTime.parse(Time.zone.now.to_s)
       event_start_date = DateTime.parse(event['start_time'])
+
       current_total_minute = current_time.hour * 60 + current_time.minute
       event_total_minute = event_start_date.hour * 60 + event_start_date.minute
       time_until = event_total_minute - current_total_minute
@@ -75,7 +76,7 @@ module AlexaInterfaceHelper
         time_left_phrase = "#{hour_until} hr and #{minute_until} min"
       end
 
-      " starting at #{}. You have #{time_left_phrase} to get ready."
+      " starting at #{event_start_date.strftime('%l:%M %p')}. You have #{time_left_phrase} to get ready."
     end
 
 
@@ -100,8 +101,8 @@ module AlexaInterfaceHelper
   def format_speech_for_alexa(response_for_alexa, single_event)
     event_name = single_event['title']
     venue_name = single_event['venue_name']
-    start_date = single_event['start_time']
-    start_time = DateTime.parse(start_date).strftime('%l:%M %p')
+    # start_date = single_event['start_time']
+    # start_time = DateTime.parse(start_date).strftime('%l:%M %p')
     time_until = time_until(single_event)
     response_for_alexa.add_speech("#{event_name} is happening at #{venue_name}#{time_until}")
   end

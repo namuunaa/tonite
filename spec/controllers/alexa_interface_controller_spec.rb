@@ -19,7 +19,13 @@ RSpec.describe AlexaInterfaceController, :type => :controller do
       expect(assigns(:user).city).to eq("City")
     end
     # spy on, runs create response
-    it 'will run default without an intent'
+    it 'will run default without an intent' do
+      json = { 'format' => 'json',
+               'request' => { 'intent' => "intent" },
+               "session" => { 'user' => { 'userId' => "userId"} } }
+      post :recommend, json
+      p response
+    end
 
   end
 end

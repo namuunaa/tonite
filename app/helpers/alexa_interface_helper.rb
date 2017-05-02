@@ -41,8 +41,10 @@ module AlexaInterfaceHelper
     end
     call_list = call_list.select do |event|
       p "======"
-      p event["all_day"]
-      p event["start_time"]
+      p "event all day: ", event["all_day"]
+      p "event start time: ", event["start_time"]
+      p "event all day boolean: ", event["all_day"] != "0"
+      p "event in future: ", Time.parse(event["start_time"]).future?
       p event["all_day"] != "0" || Time.parse(event["start_time"]).future?
     end
     call_list

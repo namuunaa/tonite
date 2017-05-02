@@ -100,7 +100,7 @@ describe AlexaInterfaceHelper do
     end
 
     let(:event) do
-      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "1"}
+      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "0"}
     end
 
     it "does not include an @speech attribute before the add_speech method is run" do
@@ -112,6 +112,19 @@ describe AlexaInterfaceHelper do
       time = time_until(event)
       expect(response.speech[:text]).to be_a_kind_of(String)
       expect(response.speech[:text]).not_to be_empty
+    end
+
+    it "returns speech in the expected format for an all-day event" do
+      event['all_day'] = "1"
+      format_speech_for_alexa(response, event)
+      time = time_until(event)
+      expect(response.speech[:text]).to eq("Hamilton is happening at DBC. This is an all-day event.")
+    end
+
+    it "returns speech in the expected format for an event with a start time" do
+      format_speech_for_alexa(response, event)
+      time = time_until(event)
+      expect(response.speech[:text]).to eq("Hamilton is happening at DBC#{time}")
     end
   end
 

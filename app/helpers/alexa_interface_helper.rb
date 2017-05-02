@@ -97,7 +97,9 @@ module AlexaInterfaceHelper
   end
 
   def format_no_events_found_speech_for_alexa(response_for_alexa)
-
+    location = get_location
+    p "location is #{location}"
+    response_for_alexa.add_speech("I cannot find anything happening now in #{location}")
   end
 
   def generate_single_event_text_for_card(event)

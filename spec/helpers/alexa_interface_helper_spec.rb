@@ -64,7 +64,7 @@ describe AlexaInterfaceHelper do
     end
   end
 
-  describe '#format_speech_for_alexa' do
+  describe '#format_results_speech_for_alexa' do
     let(:response) do
       AlexaRubykit::Response.new
     end
@@ -78,7 +78,7 @@ describe AlexaInterfaceHelper do
     end
 
     it "adds an @speech attribute after the add_speech method is run" do
-      format_speech_for_alexa(response, event)
+      format_results_speech_for_alexa(response, event)
       time = time_until(DateTime.parse(event['start_time']))
       expect(response.speech[:text]).to eq("Hamilton is happening at DBC starting at  6:00 PM. You have #{time} to get ready.")
     end
@@ -184,10 +184,15 @@ describe AlexaInterfaceHelper do
   end
 
   xdescribe '#format_no_events_found_speech_for_alexa' do
-    let(:city) {'Brigadoon'}
+    let(:user) {User.new(user_id: 'test_user', city: 'Brigadoon')}
+    # let(controller.params['session']['user']['userId']) {:user.user_id}
+    let(:response_for_alexa) {AlexaRubykit::Response.new}
 
     it 'returns text stating that there were no events found in the city' do
+      controller.params['session'] = { 'user' => { 'userId' => user.user_id } }
 
+      format_no_events_found_speech_for_alexa(response_for_alexa)
+      expect(response_for_alexa.speech[:text]).to be "I cannot find anything happening now in Brigadoon"
     end
   end
 

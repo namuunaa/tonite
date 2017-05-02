@@ -15,6 +15,8 @@ class AlexaInterfaceController < ApplicationController
             @user.city = city
             @user.save
             render json: build_city_set_response(@user)
+          when "AMAZON.HelpIntent"
+            render json: ask_help
           end
         else
           render json: create_response(get_location)

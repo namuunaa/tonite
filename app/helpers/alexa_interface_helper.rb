@@ -55,29 +55,45 @@ module AlexaInterfaceHelper
 
   # Takes the start time of the event and substracts from Time.now, to show hours until format
   def time_until(event)
-    Time.zone = event['olson_path']
-    current_time = DateTime.parse(Time.zone.now.to_s)
-    event_start_date = DateTime.parse(event['start_time'])
-    current_total_minute = current_time.hour * 60 + current_time.minute
-    event_total_minute = event_start_date.hour * 60 + event_start_date.minute
-    time_until = event_total_minute - current_total_minute
-    hour_until = time_until / 60
-    minute_until = time_until % 60
-    if hour_until == 1
-      if minute_until == 1
-        "#{hour_until} hour and #{minute_until} minute"
-      else
-        "#{hour_until} hour and #{minute_until} minutes"
-      end
-    elsif minute_until == 1
-      "#{hour_until} hours and #{minute_until} minute"
-    elsif hour_until == 0
-      "#{minute_until} minutes"
-    elsif minute_until == 0
-      "#{hour_until} hours"
+    if event['all_day'] != "0"
+      ". This is an all-day event."
     else
-      "#{hour_until} hours and #{minute_until} minutes"
+      Time.zone = event['olson_path']
+      current_time = DateTime.parse(Time.zone.now.to_s)
+      event_start_date = DateTime.parse(event['start_time'])
+      current_total_minute = current_time.hour * 60 + current_time.minute
+      event_total_minute = event_start_date.hour * 60 + event_start_date.minute
+      time_until = event_total_minute - current_total_minute
+      hour_until = time_until / 60
+      minute_until = time_until % 60
+
+      if hour_until == 0
+        time_left_phrase = "#{minute_until} min"
+      elsif minute_until == 0
+        time_left_phrase = "#{hour_until} hr"
+      else
+        time_left_phrase = "#{hour_until} hr and #{minute_until} min"
+      end
+
+      " starting at #{}. You have #{time_left_phrase} to get ready."
     end
+
+
+    # if hour_until == 1
+    #   if minute_until == 1
+    #     "#{hour_until} hour and #{minute_until} minute"
+    #   else
+    #     "#{hour_until} hour and #{minute_until} minutes"
+    #   end
+    # elsif minute_until == 1
+    #   "#{hour_until} hours and #{minute_until} minute"
+    # elsif hour_until == 0
+    #   "#{minute_until} minutes"
+    # elsif minute_until == 0
+    #   "#{hour_until} hours"
+    # else
+    #   "#{hour_until} hours and #{minute_until} minutes"
+    # end
   end
 
   # use the alexa gem to add speech to response for alexa. doesn't need return as it's just side effects we want
@@ -87,7 +103,7 @@ module AlexaInterfaceHelper
     start_date = single_event['start_time']
     start_time = DateTime.parse(start_date).strftime('%l:%M %p')
     time_until = time_until(single_event)
-    response_for_alexa.add_speech("#{event_name} is happening at #{venue_name} starting at #{start_time}. You have #{time_until} to get ready.")
+    response_for_alexa.add_speech("#{event_name} is happening at #{venue_name}#{time_until}")
   end
 
   # use the alexa gem to add text cards to give to alexa's companion app. doesn't need return as it's just side effects we want

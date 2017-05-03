@@ -17,6 +17,8 @@ class AlexaInterfaceController < ApplicationController
             render json: build_city_set_response(@user)
           when "AMAZON.HelpIntent"
             render json: ask_help
+          when 'SetCategoryIntent'
+            render json: category_search_response
           end
         else
           render json: create_response(get_location)

@@ -271,8 +271,8 @@ describe AlexaInterfaceHelper do
     end
   end
 
-  xdescribe '#format_no_events_found_speech_for_alexa' do
-    let(:user) {User.new(user_id: 'test_user', city: 'Brigadoon')}
+  describe '#format_no_events_found_speech_for_alexa' do
+    let(:user) {User.create(user_id: 'test_user', city: 'Brigadoon')}
     # let(controller.params['session']['user']['userId']) {:user.user_id}
     let(:response_for_alexa) {AlexaRubykit::Response.new}
 
@@ -280,7 +280,7 @@ describe AlexaInterfaceHelper do
       controller.params['session'] = { 'user' => { 'userId' => user.user_id } }
 
       format_no_events_found_speech_for_alexa(response_for_alexa)
-      expect(response_for_alexa.speech[:text]).to be "I cannot find anything happening now in Brigadoon"
+      expect(response_for_alexa.speech[:text]).to eq "I cannot find anything happening now in Brigadoon"
     end
   end
 

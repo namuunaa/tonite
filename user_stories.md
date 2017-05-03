@@ -27,3 +27,20 @@
 "Alexa, give me help with Wing It"
 
 "Alexa, ask Wing It for help"
+
+### As a user, I want to be able to set my location.
+
+"Alexa, ask Wing It to set my city to {city}"
+
+"Alexa, ask Wing It to set my location to {city}"
+
+"Alexa, ask Wing It to set my home to {city}"
+
+"Alexa, tell Wing It to set my city to {city}"
+
+"Alexa, tell Wing It my home is {city}"
+
+"Alexa, tell Wing It i live in {city}"
+
+
+

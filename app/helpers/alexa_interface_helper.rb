@@ -66,7 +66,7 @@ module AlexaInterfaceHelper
     response_for_alexa.build_response
   end
 
-  def format_category_speech_for_alexa(response_for_alexa, event, category)
+  def format_results_category_speech_for_alexa(response_for_alexa, event, category)
     event_name = event['title']
     venue_name = event['venue_name']
     time_until = time_until(event)

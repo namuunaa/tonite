@@ -55,7 +55,7 @@ describe AlexaInterfaceHelper do
     end
   end
 
-  describe '#format_category_speech_for_alexa' do
+  describe '#format_results_category_speech_for_alexa' do
 
     let(:response) do
       AlexaRubykit::Response.new
@@ -66,7 +66,7 @@ describe AlexaInterfaceHelper do
     end
 
     it 'includes the category name in the response' do
-      expect(format_category_speech_for_alexa(response, event, "music")[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC. This is an all-day event.")
+      expect(format_results_category_speech_for_alexa(response, event, "music")[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC. This is an all-day event.")
     end
 
     it "does not include an @speech attribute before the add_speech method is run" do
@@ -74,24 +74,23 @@ describe AlexaInterfaceHelper do
     end
 
     it "adds an @speech attribute after the add_speech method is run" do
-      format_category_speech_for_alexa(response, event, "music")
-      time = time_until(event)
+      format_results_category_speech_for_alexa(response, event, "music")
       expect(response.speech[:text]).to be_a_kind_of(String)
       expect(response.speech[:text]).not_to be_empty
     end
 
     it "returns speech in the expected format for an all-day event" do
       event['all_day'] = "1"
-      format_category_speech_for_alexa(response, event, "music")
-      time = time_until(event)
+      format_results_category_speech_for_alexa(response, event, "music")
       expect(response.speech[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC. This is an all-day event.")
     end
 
     it "returns speech in the expected format for an event with a start time" do
       event["all_day"] = "0"
-      format_category_speech_for_alexa(response, event, "music")
-      time = time_until(event)
-      expect(response.speech[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC#{time}")
+      Time.zone = 'America/Los_Angeles'
+      allow(Time.zone).to receive(:now).and_return(Time.parse('2017-05-03 16:20:00'))
+      format_results_category_speech_for_alexa(response, event, "music")
+      expect(response.speech[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC starting at  6:00 PM. You have 1 hr and 40 min to get ready.")
     end
   end
 

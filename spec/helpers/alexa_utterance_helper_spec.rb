@@ -19,9 +19,15 @@ describe AlexaUtteranceHelper do
     end
   end
 
-  describe "#ask_help" do
+  describe "#general_help_response" do
     it "returns with a suggestion of utterance to help with using the skill" do 
-        expect(JSON.parse(ask_help)['response']['outputSpeech']['text']).to match(/Alexa, .*Wing It.*/)
+      expect(JSON.parse(general_help_response)['response']['outputSpeech']['text']).to match(/Alexa, .*Wing It.*/)
+    end
+  end
+
+  describe "#category_help_speech" do 
+    it "returns with a suggestion of categories to help with using the skill" do 
+      expect(JSON.parse(category_help_response)['response']['outputSpeech']['text']).to match("Here are some popular categories you can search: Food, Music, Sports, Nightlife, Meetups. Please refer to the card for the full list.")
     end
   end
 end

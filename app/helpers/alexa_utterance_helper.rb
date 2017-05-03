@@ -15,7 +15,7 @@ module AlexaUtteranceHelper
   end
 
   # builds response & speech for when user asks for help
-  def ask_help
+  def general_help_response
     response = AlexaRubykit::Response.new
     response.add_speech("Try asking: #{random_help_utterance}")
     response.build_response
@@ -23,10 +23,18 @@ module AlexaUtteranceHelper
   # builds response speech and card for list of categories when asked for help for categories
   def category_help_response
     response = AlexaRubykit::Response.new
-    categories_card = @lookup_hash.keys.reduce('') {|card, category| card + category.capitalize + '\n'}
-    response.add_speech("Here are some popular categories you can search: Food, Music, Sports, Nightlife, Meetups. Please refer to the card for the full list.")
-    response.add_card('Simple', 'Event Categories:', nil, categories_card)
+    category_help_speech
+    category_help_card
     response.build_response
+  end
+
+  def category_help_speech
+    response.add_speech("Here are some popular categories you can search: Food, Music, Sports, Nightlife, Meetups. Please refer to the card for the full list.")
+  end
+
+  def category_help_card
+    categories_card = @lookup_hash.keys.reduce('') {|card, category| card + category.capitalize + '\n'}
+    response.add_card('Simple', 'Event Categories:', nil, categories_card)
   end
 
 end

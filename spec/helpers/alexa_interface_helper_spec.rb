@@ -49,21 +49,24 @@ describe AlexaInterfaceHelper do
     end
   end
 
-  xdescribe '#generate_bad_category_response' do
+  describe '#generate_bad_category_response' do
     it 'returns the appropriate response when alexa does not recognize the category name' do
-      expect(generate_bad_category_response("flapjacks")).to be("Sorry, flapjacks is not a valid category")
+      expect(generate_bad_category_response("flapjacks")).to eq("{\"version\":\"1.0\",\"response\":{\"outputSpeech\":{\"type\":\"PlainText\",\"text\":\"Sorry, flapjacks is not a valid category\"},\"shouldEndSession\":true}}")
     end
   end
 
-  xdescribe '#format_category_speech_for_alexa' do
-    it 'includes the category name in the response' do
-    end
+  describe '#format_category_speech_for_alexa' do
+
     let(:response) do
       AlexaRubykit::Response.new
     end
 
     let(:event) do
-      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "0"}
+      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "1"}
+    end
+
+    it 'includes the category name in the response' do
+      expect(format_category_speech_for_alexa(response, event, "music")[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC. This is an all-day event.")
     end
 
     it "does not include an @speech attribute before the add_speech method is run" do
@@ -71,7 +74,7 @@ describe AlexaInterfaceHelper do
     end
 
     it "adds an @speech attribute after the add_speech method is run" do
-      format_results_speech_for_alexa(response, event)
+      format_category_speech_for_alexa(response, event, "music")
       time = time_until(event)
       expect(response.speech[:text]).to be_a_kind_of(String)
       expect(response.speech[:text]).not_to be_empty
@@ -79,17 +82,17 @@ describe AlexaInterfaceHelper do
 
     it "returns speech in the expected format for an all-day event" do
       event['all_day'] = "1"
-      format_results_speech_for_alexa(response, event)
+      format_category_speech_for_alexa(response, event, "music")
       time = time_until(event)
-      expect(response.speech[:text]).to eq("Hamilton is happening at DBC. This is an all-day event.")
+      expect(response.speech[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC. This is an all-day event.")
     end
 
     it "returns speech in the expected format for an event with a start time" do
-      format_results_speech_for_alexa(response, event)
+      event["all_day"] = "0"
+      format_category_speech_for_alexa(response, event, "music")
       time = time_until(event)
-      expect(response.speech[:text]).to eq("Hamilton is happening at DBC#{time}")
+      expect(response.speech[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC#{time}")
     end
-
   end
 
   describe '#select_not_started' do

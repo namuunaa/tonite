@@ -23,8 +23,9 @@ module AlexaUtteranceHelper
   # builds response speech and card for list of categories when asked for help for categories
   def category_help_response
     response = AlexaRubykit::Response.new
-    sample_categories_speech = @lookup_hash.keys.join(",")
-    response.add_speech("Here are some popular categories you can search: #{categories_list_card} Please refer to the card for the full list.")
+    categories_card = @lookup_hash.keys.reduce('') {|card, category| card + category.capitalize + '\n'}
+    response.add_speech("Here are some popular categories you can search: Food, Music, Sports, Nightlife, Meetups. Please refer to the card for the full list.")
+    response.add_card('Simple', 'Event Categories:', nil, categories_card)
     response.build_response
   end
 

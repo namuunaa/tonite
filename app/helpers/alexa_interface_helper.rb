@@ -21,6 +21,7 @@ module AlexaInterfaceHelper
     p "3 *************************"
     given_category = params["request"]["intent"]["slots"]["category"]["value"]
     p "given category #{given_category}"
+    p @lookup_hash
     category = @lookup_hash[given_category] # I think this is right?
     p "category #{category}"
     if category

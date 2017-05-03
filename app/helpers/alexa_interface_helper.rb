@@ -12,6 +12,52 @@ module AlexaInterfaceHelper
     response_for_alexa.build_response
   end
 
+  # this method and the one above could probably be re factored to be more similar or even joined into one method maybe? (search time is a concern...)
+  def category_search_response
+    given_category = params["request"]["intent"]["slots"]["category"]["value"]
+    category = @lookup_hash[given_category] # I think this is right?
+    if category
+      response_for_alexa = AlexaRubykit::Response.new
+      response = category_call({location: get_location[:location], category: category})
+      not_started = select_not_started(response)
+      top_ten = pick10(not_started)
+      top_one = pick1(top_ten)
+      format_category_speech_for_alexa(response_for_alexa, top_one, given_category)
+      format_text_for_alexa(response_for_alexa, top_ten)
+      response_for_alexa.build_response
+    else
+      generate_bad_category_response(given_category)
+    end
+  end
+
+  def category_call(call_parameters = {})
+    # page size is 10 for testing; should be ~500 for production
+    if Rails.env.production?
+      page_size = "50"
+    else
+      page_size = "10"
+    end
+
+    parameters_hash = {category: call_parameters[:category], location: call_parameters[:location], date: "Today", sort_order: "popularity", mature: "normal", page_size: page_size, change_multi_day_start: "true" }
+    client = EventfulApi::Client.new({})
+    response = client.get('/events/search', parameters_hash)
+    # hash > "events" > "event" > array of events
+    response["events"]["event"]
+  end
+
+  def generate_bad_category_response(category)
+    response_for_alexa = AlexaRubykit::Response.new
+    response_for_alexa.add_speech("Sorry, #{category} is not a valid category")
+    response_for_alexa.build_response
+  end
+
+  def format_category_speech_for_alexa(response_for_alexa, event, category)
+    event_name = event['title']
+    venue_name = event['venue_name']
+    time_until = time_until(event)
+    response_for_alexa.add_speech("The top event in the category #{category} is #{event_name}. It is happening at #{venue_name}#{time_until}")
+  end
+
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
     # page size is 10 for testing; should be ~500 for production
@@ -21,10 +67,7 @@ module AlexaInterfaceHelper
       page_size = "10"
     end
 
-    parameters_hash = { location: "San Francisco", date: "Today", sort_order: "popularity", mature: "normal", page_size: page_size, change_multi_day_start: "true" }
-    if call_parameters[:location]
-      parameters_hash[:location] = call_parameters[:location]
-    end
+    parameters_hash = { location: call_parameters[:location], date: "Today", sort_order: "popularity", mature: "normal", page_size: page_size, change_multi_day_start: "true" }
     client = EventfulApi::Client.new({})
     response = client.get('/events/search', parameters_hash)
     # hash > "events" > "event" > array of events
@@ -168,7 +211,7 @@ module AlexaInterfaceHelper
     if user
       {location: user.city}
     else
-      {}
+      {location: 'San Francisco'}
     end
   end
 

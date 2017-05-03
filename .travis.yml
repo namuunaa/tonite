@@ -6,3 +6,7 @@ services:
 before_script:
 - psql -c 'create database tonite_test;' -U postgres
 - export TZ=US/Pacific
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov --file coverage/lcov.info --disable search

@@ -35,6 +35,7 @@ gem 'turbolinks', '~> 5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'codecov', :require => false, :group => :test
 
 gem 'httparty'
 

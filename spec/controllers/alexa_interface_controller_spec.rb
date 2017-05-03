@@ -24,7 +24,6 @@ RSpec.describe AlexaInterfaceController, :type => :controller do
                'request' => { 'intent' => "intent" },
                "session" => { 'user' => { 'userId' => "userId"} } }
       post :recommend, json
-      p response
     end
 
   end

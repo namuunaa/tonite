@@ -5,10 +5,14 @@ module AlexaInterfaceHelper
     response_for_alexa = AlexaRubykit::Response.new
     response = call(call_parameters)
     not_started = select_not_started(response)
-    top_ten = pick10(not_started)
-    top_one = pick1(top_ten)
-    format_speech_for_alexa(response_for_alexa, top_one)
-    format_text_for_alexa(response_for_alexa, top_ten)
+    if not_started.length > 0
+      top_ten = pick10(not_started)
+      top_one = pick1(top_ten)
+      format_results_speech_for_alexa(response_for_alexa, top_one)
+      format_results_text_for_alexa(response_for_alexa, top_ten)
+    else
+      format_no_events_found_speech_for_alexa(response_for_alexa)
+    end
     response_for_alexa.build_response
   end
 
@@ -98,7 +102,7 @@ module AlexaInterfaceHelper
   end
 
   # use the alexa gem to add speech to response for alexa. doesn't need return as it's just side effects we want
-  def format_speech_for_alexa(response_for_alexa, single_event)
+  def format_results_speech_for_alexa(response_for_alexa, single_event)
     event_name = single_event['title']
     venue_name = single_event['venue_name']
     # start_date = single_event['start_time']
@@ -108,12 +112,16 @@ module AlexaInterfaceHelper
   end
 
   # use the alexa gem to add text cards to give to alexa's companion app. doesn't need return as it's just side effects we want
-  def format_text_for_alexa(response_for_alexa, top_ten_events)
+  def format_results_text_for_alexa(response_for_alexa, top_ten_events)
     content_for_alexa = top_ten_events.reduce("") do |total_string, event|
       total_string + "\n \n" + generate_single_event_text_for_card(event)
     end
     # We'd like to use Standard cards so we can eventually include images but the alexa wants text as an argument instead of content for a standard card and the gem doesn't do that. Thus we have to use a simple card
     response_for_alexa.add_card('Simple', 'Top events for tonight!', nil, content_for_alexa)
+  end
+
+  def format_no_events_found_speech_for_alexa(response_for_alexa)
+    response_for_alexa.add_speech("I cannot find anything happening now in #{get_location[:location]}")
   end
 
   def generate_single_event_text_for_card(event)

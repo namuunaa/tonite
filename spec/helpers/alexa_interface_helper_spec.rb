@@ -96,7 +96,7 @@ describe AlexaInterfaceHelper do
     end
   end
 
-  describe '#format_speech_for_alexa' do
+  describe '#format_results_speech_for_alexa' do
     let(:response) do
       AlexaRubykit::Response.new
     end
@@ -110,7 +110,7 @@ describe AlexaInterfaceHelper do
     end
 
     it "adds an @speech attribute after the add_speech method is run" do
-      format_speech_for_alexa(response, event)
+      format_results_speech_for_alexa(response, event)
       time = time_until(event)
       expect(response.speech[:text]).to be_a_kind_of(String)
       expect(response.speech[:text]).not_to be_empty
@@ -118,13 +118,13 @@ describe AlexaInterfaceHelper do
 
     it "returns speech in the expected format for an all-day event" do
       event['all_day'] = "1"
-      format_speech_for_alexa(response, event)
+      format_results_speech_for_alexa(response, event)
       time = time_until(event)
       expect(response.speech[:text]).to eq("Hamilton is happening at DBC. This is an all-day event.")
     end
 
     it "returns speech in the expected format for an event with a start time" do
-      format_speech_for_alexa(response, event)
+      format_results_speech_for_alexa(response, event)
       time = time_until(event)
       expect(response.speech[:text]).to eq("Hamilton is happening at DBC#{time}")
     end
@@ -270,4 +270,18 @@ describe AlexaInterfaceHelper do
       expect(get_city_from_json).to eq('my_city')
     end
   end
+
+  describe '#format_no_events_found_speech_for_alexa' do
+    let(:user) {User.create(user_id: 'test_user', city: 'Brigadoon')}
+    # let(controller.params['session']['user']['userId']) {:user.user_id}
+    let(:response_for_alexa) {AlexaRubykit::Response.new}
+
+    it 'returns a response with speech stating that there were no events found in the city' do
+      controller.params['session'] = { 'user' => { 'userId' => user.user_id } }
+
+      format_no_events_found_speech_for_alexa(response_for_alexa)
+      expect(response_for_alexa.speech[:text]).to eq "I cannot find anything happening now in Brigadoon"
+    end
+  end
+
 end

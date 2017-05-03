@@ -20,5 +20,12 @@ module AlexaUtteranceHelper
     response.add_speech("Try asking: #{random_help_utterance}")
     response.build_response
   end
+  # builds response speech and card for list of categories when asked for help for categories
+  def category_help_response
+    response = AlexaRubykit::Response.new
+    sample_categories_speech = @lookup_hash.keys.join(",")
+    response.add_speech("Here are some popular categories you can search: #{categories_list_card} Please refer to the card for the full list.")
+    response.build_response
+  end
 
 end

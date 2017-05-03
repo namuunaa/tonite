@@ -70,6 +70,8 @@ class AlexaInterfaceController < ApplicationController
             render json: ask_help
           when 'SetCategoryIntent'
             render json: category_search_response
+          when "CategoryHelpIntent"
+            render json: category_help_response
           end
         else
           render json: create_response(get_location)
@@ -77,4 +79,5 @@ class AlexaInterfaceController < ApplicationController
       end
     end
   end
+
 end

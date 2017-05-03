@@ -20,6 +20,78 @@ describe AlexaInterfaceHelper do
     end
   end
 
+  describe '#category_call' do
+    # Check what the category ID is actually called
+    xit 'returns results for the appropriate category' do
+      response = helper.category_call({ category: "music" })
+      response.each do |event|
+        # Is there a way to check the category of the API output?
+        correct_category = event['category'] == "music"
+        expect(correct_category).to be true
+      end
+    end
+
+    it "returns an array of hashes" do
+      response = helper.category_call({})
+      expect(response).to be_a_kind_of(Array)
+      expect(response[0]).to be_a_kind_of(Hash)
+    end
+
+    it "returns events that are occurring today" do
+      response = helper.category_call({})
+      # Check "start_time" for each event in the array
+        # Convert from string to Datetime obj
+        # compare date part with Datetime.today
+      response.each do |event|
+        event_start = DateTime.parse(event["start_time"])
+        expect(event_start.strftime("%F")).to eq(Date.today.strftime("%F"))
+      end
+    end
+  end
+
+  xdescribe '#generate_bad_category_response' do
+    it 'returns the appropriate response when alexa does not recognize the category name' do
+      expect(generate_bad_category_response("flapjacks")).to be("Sorry, flapjacks is not a valid category")
+    end
+  end
+
+  xdescribe '#format_category_speech_for_alexa' do
+    it 'includes the category name in the response' do
+    end
+    let(:response) do
+      AlexaRubykit::Response.new
+    end
+
+    let(:event) do
+      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "0"}
+    end
+
+    it "does not include an @speech attribute before the add_speech method is run" do
+      expect(response.speech).to be nil
+    end
+
+    it "adds an @speech attribute after the add_speech method is run" do
+      format_results_speech_for_alexa(response, event)
+      time = time_until(event)
+      expect(response.speech[:text]).to be_a_kind_of(String)
+      expect(response.speech[:text]).not_to be_empty
+    end
+
+    it "returns speech in the expected format for an all-day event" do
+      event['all_day'] = "1"
+      format_results_speech_for_alexa(response, event)
+      time = time_until(event)
+      expect(response.speech[:text]).to eq("Hamilton is happening at DBC. This is an all-day event.")
+    end
+
+    it "returns speech in the expected format for an event with a start time" do
+      format_results_speech_for_alexa(response, event)
+      time = time_until(event)
+      expect(response.speech[:text]).to eq("Hamilton is happening at DBC#{time}")
+    end
+
+  end
+
   describe '#select_not_started' do
     let(:api_response) do
       select_not_started(helper.call)

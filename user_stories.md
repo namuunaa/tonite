@@ -30,13 +30,13 @@
 
 ### As a user, I want to be able to set my location.
 
-"Alexa, ask Wing It set my city to {city}"
+"Alexa, ask Wing It to set my city to {city}"
 
-"Alexa, ask Wing It set my location to {city}"
+"Alexa, ask Wing It to set my location to {city}"
 
-"Alexa, ask Wing It set my home to {city}"
+"Alexa, ask Wing It to set my home to {city}"
 
-"Alexa, tell Wing It set my city to {city}"
+"Alexa, tell Wing It to set my city to {city}"
 
 "Alexa, tell Wing It my home is {city}"
 

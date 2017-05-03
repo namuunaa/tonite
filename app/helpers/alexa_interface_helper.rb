@@ -18,19 +18,13 @@ module AlexaInterfaceHelper
 
   # this method and the one above could probably be re factored to be more similar or even joined into one method maybe? (search time is a concern...)
   def category_search_response(lookup_hash)
-    p "3 *************************"
-    given_category = params["request"]["intent"]["slots"]["category"]["value"].capitalize
-    p "given category #{given_category}"
-    p lookup_hash
+    given_category = params["request"]["intent"]["slots"]["category"]["value"].downcase
     category = lookup_hash[given_category] # I think this is right?
-    p "category #{category}"
     if category
-      p "4 ************************"
       response_for_alexa = AlexaRubykit::Response.new
       response = category_call({location: get_location[:location], category: category})
       not_started = select_not_started(response)
       if not_started.length > 0
-        p "5 *******************************"
         top_ten = pick10(not_started)
         top_one = pick1(top_ten)
         format_results_category_speech_for_alexa(response_for_alexa, top_one, given_category)
@@ -38,7 +32,6 @@ module AlexaInterfaceHelper
       else
         format_no_events_found_speech_for_alexa(response_for_alexa)
       end
-      p "6 *******************************"
       response_for_alexa.build_response
     else
       generate_bad_category_response(given_category)
@@ -46,7 +39,7 @@ module AlexaInterfaceHelper
   end
 
   def category_call(call_parameters = {})
-    # page size is 10 for testing; should be ~500 for production
+    # page size is 10 for testing; should be ~50 for production
     if Rails.env.production?
       page_size = "50"
     else
@@ -75,7 +68,7 @@ module AlexaInterfaceHelper
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
   def call(call_parameters={})
-    # page size is 10 for testing; should be ~500 for production
+    # page size is 10 for testing; should be ~50 for production
     if Rails.env.production?
       page_size = "50"
     else
@@ -91,14 +84,10 @@ module AlexaInterfaceHelper
 
   #limit the selection to events that have not yet started (OR all-day events if the current time is late in the day)
   def select_not_started(call_list)
-    # call_list = call_list.select do |event|
-    #   event["all_day"] && event["start_time"]
-    # end
     Time.zone = call_list.first['olson_path']
     call_list = call_list.select do |event|
       (event["all_day"] != "0" && Time.zone.now.strftime('%R') < "18:00") || Time.zone.parse(event["start_time"]).future?
     end
-    # call_list
   end
 
   # Run call, then select ten of the call items. Returns array with length 10 or less
@@ -136,31 +125,12 @@ module AlexaInterfaceHelper
 
       " starting at #{event_start_date.strftime('%l:%M %p')}. You have #{time_left_phrase} to get ready."
     end
-
-
-    # if hour_until == 1
-    #   if minute_until == 1
-    #     "#{hour_until} hour and #{minute_until} minute"
-    #   else
-    #     "#{hour_until} hour and #{minute_until} minutes"
-    #   end
-    # elsif minute_until == 1
-    #   "#{hour_until} hours and #{minute_until} minute"
-    # elsif hour_until == 0
-    #   "#{minute_until} minutes"
-    # elsif minute_until == 0
-    #   "#{hour_until} hours"
-    # else
-    #   "#{hour_until} hours and #{minute_until} minutes"
-    # end
   end
 
   # use the alexa gem to add speech to response for alexa. doesn't need return as it's just side effects we want
   def format_results_speech_for_alexa(response_for_alexa, single_event)
     event_name = single_event['title']
     venue_name = single_event['venue_name']
-    # start_date = single_event['start_time']
-    # start_time = DateTime.parse(start_date).strftime('%l:%M %p')
     time_until = time_until(single_event)
     response_for_alexa.add_speech("#{event_name} is happening at #{venue_name}#{time_until}")
   end
@@ -170,7 +140,6 @@ module AlexaInterfaceHelper
     content_for_alexa = top_ten_events.reduce("") do |total_string, event|
       total_string + "\n \n" + generate_single_event_text_for_card(event)
     end
-    # We'd like to use Standard cards so we can eventually include images but the alexa wants text as an argument instead of content for a standard card and the gem doesn't do that. Thus we have to use a simple card
     response_for_alexa.add_card('Simple', 'Top events for tonight!', nil, content_for_alexa)
   end
 
@@ -204,7 +173,6 @@ module AlexaInterfaceHelper
   end
 
   # remove br tags and &quot; formating and parse it into alexa writable strings
-  # can refactor with sanitize for nokogiri
   def format_html_text_to_string(html_text)
     formatted_text = format_html(html_text)
     clip(formatted_text)

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/namuunaa/tonite.svg?branch=development)](https://travis-ci.org/namuunaa/tonite) [![Coverage Status](https://coveralls.io/repos/github/namuunaa/wing-it/badge.svg?branch=development)](https://coveralls.io/github/namuunaa/wing-it?branch=development)
+
 # Wing It
 
 ![alt text](https://github.com/namuunaa/wing-it/blob/development/app/assets/images/Wing_It_512_final.jpg "Wing It")

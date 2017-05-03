@@ -27,7 +27,21 @@ describe AlexaUtteranceHelper do
 
   describe "#category_help_speech" do 
     it "returns with a suggestion of categories to help with using the skill" do 
-      expect(JSON.parse(category_help_response)['response']['outputSpeech']['text']).to match("Here are some popular categories you can search: Food, Music, Sports, Nightlife, Meetups. Please refer to the card for the full list.")
+      expect(category_help_speech(response)[:text]).to match("Here are some popular categories you can search: Food, Music, Sports, Nightlife, Meetups. Please refer to the card for the full list.")
     end
   end
+
+  describe "#category_help_card" do 
+    let(:lookup_hash) do 
+      {'concerts' => 'music',
+      'tour dates' => 'music',
+      'conferences' => 'conference',
+      'tradeshows' => 'conference'}
+    end
+
+    it 'returns a formatted string of all categories for the card' do
+      expect(category_help_card(response)[:content]).to eq("Concerts\\nTour dates\\nConferences\\nTradeshows\\n") 
+    end
+  end
+
 end

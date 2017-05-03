@@ -20,7 +20,9 @@ module AlexaInterfaceHelper
   def category_search_response
     p "3 *************************"
     given_category = params["request"]["intent"]["slots"]["category"]["value"]
+    p "given category #{given_category}"
     category = @lookup_hash[given_category] # I think this is right?
+    p "category #{category}"
     if category
       p "4 ************************"
       response_for_alexa = AlexaRubykit::Response.new

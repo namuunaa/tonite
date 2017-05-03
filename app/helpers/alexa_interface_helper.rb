@@ -33,8 +33,8 @@ module AlexaInterfaceHelper
         p "5 *******************************"
         top_ten = pick10(not_started)
         top_one = pick1(top_ten)
-        format_category_speech_for_alexa(response_for_alexa, top_one, given_category)
-        format_text_for_alexa(response_for_alexa, top_ten)
+        format_results_category_speech_for_alexa(response_for_alexa, top_one, given_category)
+        format_results_text_for_alexa(response_for_alexa, top_ten)
       else
         format_no_events_found_speech_for_alexa(response_for_alexa)
       end

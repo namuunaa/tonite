@@ -20,6 +20,81 @@ describe AlexaInterfaceHelper do
     end
   end
 
+  describe '#category_call' do
+    # Check what the category ID is actually called
+    xit 'returns results for the appropriate category' do
+      response = helper.category_call({ category: "music" })
+      response.each do |event|
+        # Is there a way to check the category of the API output?
+        correct_category = event['category'] == "music"
+        expect(correct_category).to be true
+      end
+    end
+
+    it "returns an array of hashes" do
+      response = helper.category_call({})
+      expect(response).to be_a_kind_of(Array)
+      expect(response[0]).to be_a_kind_of(Hash)
+    end
+
+    it "returns events that are occurring today" do
+      response = helper.category_call({})
+      # Check "start_time" for each event in the array
+        # Convert from string to Datetime obj
+        # compare date part with Datetime.today
+      response.each do |event|
+        event_start = DateTime.parse(event["start_time"])
+        expect(event_start.strftime("%F")).to eq(Date.today.strftime("%F"))
+      end
+    end
+  end
+
+  describe '#generate_bad_category_response' do
+    it 'returns the appropriate response when alexa does not recognize the category name' do
+      expect(generate_bad_category_response("flapjacks")).to eq("{\"version\":\"1.0\",\"response\":{\"outputSpeech\":{\"type\":\"PlainText\",\"text\":\"Sorry, flapjacks is not a valid category\"},\"shouldEndSession\":true}}")
+    end
+  end
+
+  describe '#format_category_speech_for_alexa' do
+
+    let(:response) do
+      AlexaRubykit::Response.new
+    end
+
+    let(:event) do
+      {'title' => 'Hamilton', 'venue_name' => 'DBC', 'start_time' => '2017-04-29 18:00', 'olson_path' => 'America/Los_Angeles', 'all_day' => "1"}
+    end
+
+    it 'includes the category name in the response' do
+      expect(format_category_speech_for_alexa(response, event, "music")[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC. This is an all-day event.")
+    end
+
+    it "does not include an @speech attribute before the add_speech method is run" do
+      expect(response.speech).to be nil
+    end
+
+    it "adds an @speech attribute after the add_speech method is run" do
+      format_category_speech_for_alexa(response, event, "music")
+      time = time_until(event)
+      expect(response.speech[:text]).to be_a_kind_of(String)
+      expect(response.speech[:text]).not_to be_empty
+    end
+
+    it "returns speech in the expected format for an all-day event" do
+      event['all_day'] = "1"
+      format_category_speech_for_alexa(response, event, "music")
+      time = time_until(event)
+      expect(response.speech[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC. This is an all-day event.")
+    end
+
+    it "returns speech in the expected format for an event with a start time" do
+      event["all_day"] = "0"
+      format_category_speech_for_alexa(response, event, "music")
+      time = time_until(event)
+      expect(response.speech[:text]).to eq("The top event in the category music is Hamilton. It is happening at DBC#{time}")
+    end
+  end
+
   describe '#select_not_started' do
     let(:api_response) do
       select_not_started(helper.call)
@@ -132,7 +207,7 @@ describe AlexaInterfaceHelper do
 
   describe '#time_until' do
     let(:event1) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 1.hour + 25.minutes).to_s, 'all_day' => "0"}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => Time.parse("2017-04-29 18:25:00").to_s, 'all_day' => "0"}
     end
 
     let(:start_time1) do
@@ -140,7 +215,7 @@ describe AlexaInterfaceHelper do
     end
 
     let(:event2) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 2.hour + 1.minutes).to_s, 'all_day' => "0"}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => Time.parse("2017-04-29 19:01:00").to_s, 'all_day' => "0"}
     end
 
     let(:start_time2) do
@@ -148,7 +223,7 @@ describe AlexaInterfaceHelper do
     end
 
     let(:event3) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 3.hour + 46.minutes).to_s, 'all_day' => "0"}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => Time.parse("2017-04-29 20:46:00").to_s, 'all_day' => "0"}
     end
 
     let(:start_time3) do
@@ -156,7 +231,7 @@ describe AlexaInterfaceHelper do
     end
 
     let(:event4) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 0.hour + 46.minutes).to_s, 'all_day' => "0"}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => Time.parse("2017-04-29 17:46:00").to_s, 'all_day' => "0"}
     end
 
     let(:start_time4) do
@@ -164,7 +239,7 @@ describe AlexaInterfaceHelper do
     end
 
     let(:event5) do
-      {'olson_path' => 'America/Los_Angeles', 'start_time' => (DateTime.now + 3.hour + 0.minutes).to_s, 'all_day' => "0"}
+      {'olson_path' => 'America/Los_Angeles', 'start_time' => Time.parse("2017-04-29 20:00:00").to_s, 'all_day' => "0"}
     end
 
     let(:start_time5) do
@@ -180,6 +255,8 @@ describe AlexaInterfaceHelper do
     end
 
     it 'displays time left till the event' do
+      current_time = Time.parse("2017-04-29 17:00:00")
+      allow(Time.zone).to receive(:now).and_return(current_time)
       expect(time_until(event1)).to eq(" starting at #{start_time1}. You have 1 hr and 25 min to get ready.")
       expect(time_until(event2)).to eq(" starting at #{start_time2}. You have 2 hr and 1 min to get ready.")
       expect(time_until(event3)).to eq(" starting at #{start_time3}. You have 3 hr and 46 min to get ready.")
@@ -188,6 +265,8 @@ describe AlexaInterfaceHelper do
     end
 
     it 'informs the user of an all-day event without displaying the start time and time to get ready' do
+      current_time = Time.parse("2017-04-29 17:00:00")
+      allow(Time.zone).to receive(:now).and_return(current_time)
       expect(time_until(event6)).to eq(". This is an all-day event.")
       expect(time_until(event7)).to eq(". This is an all-day event.")
     end
@@ -245,9 +324,9 @@ describe AlexaInterfaceHelper do
   # describe '#format_text_for_alexa'
 
   describe '#get_location' do
-    it 'will return an empty hash if there is no user with the appropriate id' do
+    it 'will return location: "San Francisco" if there is no user with the appropriate id' do
       controller.params['session'] = {'user' => {'userId' => 'my_id'}}
-      expect(get_location).to eq({})
+      expect(get_location).to eq({location: 'San Francisco'})
     end
 
     it 'will return a hash with location: "city" if there is such a user in the db' do

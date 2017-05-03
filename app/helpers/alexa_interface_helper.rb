@@ -17,12 +17,12 @@ module AlexaInterfaceHelper
   end
 
   # this method and the one above could probably be re factored to be more similar or even joined into one method maybe? (search time is a concern...)
-  def category_search_response
+  def category_search_response(lookup_hash)
     p "3 *************************"
     given_category = params["request"]["intent"]["slots"]["category"]["value"]
     p "given category #{given_category}"
-    p @lookup_hash
-    category = @lookup_hash[given_category] # I think this is right?
+    p lookup_hash
+    category = lookup_hash[given_category] # I think this is right?
     p "category #{category}"
     if category
       p "4 ************************"

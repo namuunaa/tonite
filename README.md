@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/namuunaa/tonite.svg?branch=development)](https://travis-ci.org/namuunaa/tonite) [![Coverage Status](https://coveralls.io/repos/github/namuunaa/wing-it/badge.svg?branch=development)](https://coveralls.io/github/namuunaa/wing-it?branch=development)
+[![Build Status](https://travis-ci.org/namuunaa/tonite.svg?branch=development)](https://travis-ci.org/namuunaa/tonite)
+[![Coverage Status](https://img.shields.io/codecov/c/github/codecov/example-python.svg?branch=development)](https://codecov.io/gh/namuunaa/wing-it)
 
 # Wing It
 

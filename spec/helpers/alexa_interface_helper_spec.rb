@@ -276,7 +276,7 @@ describe AlexaInterfaceHelper do
     # let(controller.params['session']['user']['userId']) {:user.user_id}
     let(:response_for_alexa) {AlexaRubykit::Response.new}
 
-    it 'returns text stating that there were no events found in the city' do
+    it 'returns a response with speech stating that there were no events found in the city' do
       controller.params['session'] = { 'user' => { 'userId' => user.user_id } }
 
       format_no_events_found_speech_for_alexa(response_for_alexa)

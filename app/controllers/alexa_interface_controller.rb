@@ -1,56 +1,67 @@
 class AlexaInterfaceController < ApplicationController
 
-  @lookup_hash = {
-        'Concerts' => 'music',
-        'Tour Dates' => 'music',
-        'Conferences' => 'conference',
-        'Tradeshows' => 'conference',
-        'Comedy' => 'comedy',
-        'Education' => 'learning_education',
-        'Kids' => 'learning_education',
-        'Family' => 'family_fun_kids',
-        'Festivals' => 'festivals_parades',
-        'Film' => 'movies_film',
-        'Food' => 'food',
-        'Wine' => 'food',
-        'Fundraising' => 'fundraisers',
-        'Charity' => 'fundraisers',
-        'Art Galleries' => 'art',
-        'Exhibits' => 'art',
-        'Health' => 'support',
-        'Wellness' => 'support',
-        'Holiday' => 'holiday',
-        'Literary' => 'books',
-        'Books' => 'books',
-        'Museums' => 'attractions',
-        'Attractions' => 'attractions',
-        'Neighborhood'=> 'community',
-        'Business' => 'business',
-        'Networking' => 'business',
-        'Nightlife' => 'singles_social',
-        'Singles' => 'singles_social',
-        'University' => 'schools_alumni',
-        'Alumni' => 'schools_alumni',
-        'Organizations' => 'clubs_associations',
-        'Meetups' => 'clubs_associations',
-        'Outdoors' => 'outdoors_recreation',
-        'Recreation' => 'outdoors_recreation',
-        'Performing Arts' => 'performing_arts',
-        'Pets' => 'animals',
-        'Politics' => 'politics_activism',
-        'Activism' => 'politics_activism',
-        'Sales' => 'sales',
-        'Retail' => 'sales',
-        'Science' => 'science',
-        'Religion' => 'religion_spirituality',
-        'Spirituality' => 'religion_spirituality',
-        'Sports' => 'sports',
-        'Technology' => 'technology',
-        'Other' => 'other',
-        'Miscellaneous' => 'other'
-  }
 
   def recommend
+
+    @lookup_hash = {
+          'music' => 'music',
+          'concerts' => 'music',
+          'tour dates' => 'music',
+          'conferences' => 'conference',
+          'tradeshows' => 'conference',
+          'comedy' => 'comedy',
+          'education' => 'learning_education',
+          'kids' => 'family_fun_kids',
+          'family' => 'family_fun_kids',
+          'festivals' => 'festivals_parades',
+          'film' => 'movies_film',
+          'movies' => 'movies_film',
+          'food' => 'food',
+          'restaurants' => 'food',
+          'fundraising' => 'fundraisers',
+          'fundraisers' => 'fundraisers',
+          'charity' => 'fundraisers',
+          'art' => 'art',
+          'art galleries' => 'art',
+          'galleries' => 'art',
+          'exhibits' => 'art',
+          'health' => 'support',
+          'wellness' => 'support',
+          'holiday' => 'holiday',
+          'literary' => 'books',
+          'literature' => 'books',
+          'books' => 'books',
+          'museums' => 'attractions',
+          'attractions' => 'attractions',
+          'neighborhood'=> 'community',
+          'community' => 'community',
+          'business' => 'business',
+          'networking' => 'business',
+          'nightlife' => 'singles_social',
+          'clubbing' => 'singles_social',
+          'singles' => 'singles_social',
+          'university' => 'schools_alumni',
+          'alumni' => 'schools_alumni',
+          'organizations' => 'clubs_associations',
+          'meetups' => 'clubs_associations',
+          'outdoors' => 'outdoors_recreation',
+          'recreation' => 'outdoors_recreation',
+          'performing Arts' => 'performing_arts',
+          'pets' => 'animals',
+          'politics' => 'politics_activism',
+          'activism' => 'politics_activism',
+          'sales' => 'sales',
+          'retail' => 'sales',
+          'science' => 'science',
+          'religion' => 'religion_spirituality',
+          'spirituality' => 'religion_spirituality',
+          'sports' => 'sports',
+          'technology' => 'technology',
+          'tech' => 'technology',
+          'other' => 'other',
+          'miscellaneous' => 'other'
+    }
+
     respond_to do |f|
 
       f.json do
@@ -69,7 +80,7 @@ class AlexaInterfaceController < ApplicationController
           when "AMAZON.HelpIntent"
             render json: ask_help
           when 'SetCategoryIntent'
-            render json: category_search_response
+            render json: category_search_response(@lookup_hash)
           end
         else
           render json: create_response(get_location)

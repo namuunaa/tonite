@@ -24,10 +24,14 @@ module AlexaInterfaceHelper
       response_for_alexa = AlexaRubykit::Response.new
       response = category_call({location: get_location[:location], category: category})
       not_started = select_not_started(response)
-      top_ten = pick10(not_started)
-      top_one = pick1(top_ten)
-      format_category_speech_for_alexa(response_for_alexa, top_one, given_category)
-      format_text_for_alexa(response_for_alexa, top_ten)
+      if not_started.length > 0
+        top_ten = pick10(not_started)
+        top_one = pick1(top_ten)
+        format_category_speech_for_alexa(response_for_alexa, top_one, given_category)
+        format_text_for_alexa(response_for_alexa, top_ten)
+      else
+        format_no_events_found_speech_for_alexa(response_for_alexa)
+      end
       response_for_alexa.build_response
     else
       generate_bad_category_response(given_category)

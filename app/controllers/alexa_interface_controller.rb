@@ -54,6 +54,7 @@ class AlexaInterfaceController < ApplicationController
     respond_to do |f|
 
       f.json do
+        p "1 *********************"
         if params["request"]["intent"]
           case params["request"]["intent"]["name"]
 
@@ -69,6 +70,7 @@ class AlexaInterfaceController < ApplicationController
           when "AMAZON.HelpIntent"
             render json: ask_help
           when 'SetCategoryIntent'
+            p "2 *****************"
             render json: category_search_response
           end
         else

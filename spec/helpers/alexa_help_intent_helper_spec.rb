@@ -46,7 +46,7 @@ describe AlexaHelpIntentHelper do
     end
 
     it 'returns a formatted string of all categories for the card' do
-      expect(category_help_card(response, lookup_hash)[:content]).to match("Concerts\nTour dates\nConferences\nTradeshows\n")
+      expect(category_help_card(response, lookup_hash)[:content]).to eq("Concerts\nTour dates\nConferences\nTradeshows\n")
     end
   end
 

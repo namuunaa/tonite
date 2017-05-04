@@ -2,8 +2,9 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/codecov/example-python.svg?branch=development)](https://codecov.io/gh/namuunaa/wing-it)
 
 # Tonite
-
-![alt text](https://github.com/namuunaa/wing-it/blob/development/app/assets/images/tonite_512_round.png "tonite logo")
+<p align="center">
+<img src= "https://github.com/namuunaa/wing-it/blob/development/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
+</p>
 
 **Tonite** is an event recommendation app that allows users to use Alexa to find an
 event going on today for a spontaneous outing.

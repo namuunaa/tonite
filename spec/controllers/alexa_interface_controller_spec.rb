@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe AlexaInterfaceController, :type => :controller do
   describe '#recommend' do
-    it 'accepts returns a json object to a json post request' do
+    xit 'accepts returns a json object to a json post request' do
       json = { 'format' => 'json',
                'request' => { 'intent' => { 'name' => 'SetCityIntent', 'slots' => { 'city' => { 'value' => "City" } } } },
                "session" => { 'user' => { 'userId' => "userId"} } }
       post :recommend, json
+      #expect(response).to
     end
 
     it 'will set a user location when intent is SetCityIntent' do

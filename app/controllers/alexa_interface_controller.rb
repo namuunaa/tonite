@@ -81,6 +81,8 @@ class AlexaInterfaceController < ApplicationController
             render json: general_help_response
           when 'SetCategoryIntent'
             render json: category_search_response(@lookup_hash)
+          when "CategoryHelpIntent"
+            render json: category_help_response(@lookup_hash)
           end
         else
           render json: create_response(get_location)

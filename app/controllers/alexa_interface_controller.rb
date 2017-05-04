@@ -78,9 +78,11 @@ class AlexaInterfaceController < ApplicationController
             @user.save
             render json: build_city_set_response(@user)
           when "AMAZON.HelpIntent"
-            render json: ask_help
+            render json: general_help_response
           when 'SetCategoryIntent'
             render json: category_search_response(@lookup_hash)
+          when "CategoryHelpIntent"
+            render json: category_help_response(@lookup_hash)
           end
         else
           render json: create_response(get_location)
@@ -88,4 +90,5 @@ class AlexaInterfaceController < ApplicationController
       end
     end
   end
+
 end

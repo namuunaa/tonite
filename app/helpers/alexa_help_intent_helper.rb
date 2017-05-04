@@ -1,4 +1,4 @@
-module AlexaUtteranceHelper
+module AlexaHelpIntentHelper
 
   def random_help_utterance
     sample_utterances = [
@@ -33,7 +33,7 @@ module AlexaUtteranceHelper
   end
 
   def category_help_card(response, lookup_hash)
-    categories_card = lookup_hash.keys.reduce('') {|card, category| card + category.capitalize + '\n'}
+    categories_card = lookup_hash.keys.reduce('') {|card, category| card + (category.capitalize + "\n")}
     response.add_card('Simple', 'Event Categories:', nil, categories_card)
   end
 

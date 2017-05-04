@@ -1,18 +1,18 @@
 [![Build Status](https://travis-ci.org/namuunaa/wing-it.svg?branch=development)](https://travis-ci.org/namuunaa/wing-it)
 [![Coverage Status](https://img.shields.io/codecov/c/github/codecov/example-python.svg?branch=development)](https://codecov.io/gh/namuunaa/wing-it)
 
-# Wing It
+# Tonite
 
 ![alt text](https://github.com/namuunaa/wing-it/blob/development/app/assets/images/Wing_It_512_final.jpg "Wing It")
 
-**Wing It** is an event recommendation app that allows users to use Alexa to find an
+**Tonite** is an event recommendation app that allows users to use Alexa to find an
 event going on today for a spontaneous outing.
 
 ## Basic Use
 
-Add the skill _Wing It_ to your Alexa account.
+Add the skill _Tonite_ to your Alexa account.
 
-Say "Alexa ask Wing It for something to do."
+Say "Alexa, ask Tonite for something to do."
 
 (If the server takes too long to respond, please try again. Likely our free
 heroku server had fallen asleep.)

@@ -3,7 +3,7 @@
 
 # Tonite
 
-![alt text](https://github.com/namuunaa/wing-it/blob/development/app/assets/images/tonite_512_round.jpg "tonite logo")
+![alt text](https://github.com/namuunaa/wing-it/blob/development/app/assets/images/tonite_512_round.png "tonite logo")
 
 **Tonite** is an event recommendation app that allows users to use Alexa to find an
 event going on today for a spontaneous outing.

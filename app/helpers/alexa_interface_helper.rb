@@ -218,4 +218,15 @@ module AlexaInterfaceHelper
     params["request"]["intent"]["slots"]["city"]["value"]
   end
 
+  def city_help_response(user_id)
+    response = AlexaRubykit::Response.new()
+    user = User.find_by(user_id)
+    if user
+      response.add_speech("You are currently in the city of  #{user.city}")
+    else
+      response.add_speech("You have not set your city yet. The default city is San Francisco")
+    end
+    response.build_response
+  end
+
 end

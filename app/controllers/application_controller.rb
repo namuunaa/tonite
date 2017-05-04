@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   include AlexaInterfaceHelper
-  include AlexaUtteranceHelper
+  include AlexaHeplpIntentHelper
 end

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe AlexaUtteranceHelper do
+describe AlexaHelpIntentHelper do
   describe '#random_help_utterance' do
       let(:sample_utterances) do
       [
@@ -46,7 +46,7 @@ describe AlexaUtteranceHelper do
     end
 
     it 'returns a formatted string of all categories for the card' do
-      expect(category_help_card(response, lookup_hash)[:content]).to match("Concerts\\nTour dates\\nConferences\\nTradeshows\\n")
+      expect(category_help_card(response, lookup_hash)[:content]).to match("Concerts\nTour dates\nConferences\nTradeshows\n")
     end
   end
 

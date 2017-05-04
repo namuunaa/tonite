@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/namuunaa/wing-it.svg?branch=development)](https://travis-ci.org/namuunaa/wing-it)
-[![Coverage Status](https://img.shields.io/codecov/c/github/codecov/example-python.svg?branch=development)](https://codecov.io/gh/namuunaa/wing-it)
+[![Build Status](https://travis-ci.org/namuunaa/tonite.svg?branch=development)](https://travis-ci.org/namuunaa/tonite)
+[![Coverage Status](https://img.shields.io/codecov/c/github/codecov/example-python.svg?branch=development)](https://codecov.io/gh/namuunaa/tonite)
 
 # Tonite
 <p align="center">
-<img src= "https://github.com/namuunaa/wing-it/blob/development/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
+<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
 </p>
 
 **Tonite** is an event recommendation app that allows users to use Alexa to find an

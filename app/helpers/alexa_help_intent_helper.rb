@@ -7,8 +7,6 @@ module AlexaHelpIntentHelper
       "Alexa, I want to do something with tonite",
       "Alexa, tonite",
       "Alexa, run tonite",
-      "Alexa, let's tonite.",
-      "Alexa, I want to tonite",
       "Alexa, tonite with me"
     ]
     sample_utterances.sample
@@ -17,7 +15,7 @@ module AlexaHelpIntentHelper
   # builds response & speech for when user asks for help
   def general_help_response
     response = AlexaRubykit::Response.new
-    response.add_speech("Try asking: #{random_help_utterance}")
+    response.add_speech("Try asking: #{random_help_utterance}. Or, you can ask for what categories are available with: Alexa, list the categories in tonite. You can search in a category with: Alexa, ask tonight to find events in: your category here. Or you can set your current city with: Alexa, tell tonite I live in: your city here. You can also ask tonite what your city is set to with: Alexa, what's my location in tonite.")
     response.build_response
   end
 

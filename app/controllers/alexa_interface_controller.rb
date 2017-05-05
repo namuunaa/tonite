@@ -85,6 +85,8 @@ class AlexaInterfaceController < ApplicationController
             render json: category_help_response(@lookup_hash)
           when 'CityHelpIntent'
             render json: city_help_response(params["session"]["user"]["userId"])
+          when 'EasterEggs'
+            render json: get_turnt
           end
         else
           render json: create_response(get_location)

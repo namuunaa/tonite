@@ -24,6 +24,8 @@ heroku server had fallen asleep.)
 
 [See Getting Started with the Alexa Skills Kit](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/getting-started-guide)
 
+[Our speech interface configuration](./alexa_interface.json)
+
 ### Server Setup
 
 ```

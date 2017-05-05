@@ -1,6 +1,8 @@
-# Tonite
+# Wing It
 
-Tonite is an event recommendation app that allows users to use Alexa to find an
+![alt text](https://github.com/namuunaa/wing-it/blob/development/app/assets/images/Wing_It_512_final.jpg "Wing It")
+
+**Wing It** is an event recommendation app that allows users to use Alexa to find an
 event going on today for a spontaneous outing.
 
 ## Basic Use

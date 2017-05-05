@@ -19,7 +19,7 @@ module AlexaInterfaceHelper
   # this method and the one above could probably be re factored to be more similar or even joined into one method maybe? (search time is a concern...)
   def category_search_response(lookup_hash)
     given_category = params["request"]["intent"]["slots"]["category"]["value"].downcase
-    category = lookup_hash[given_category] # I think this is right?
+    category = lookup_hash[given_category]
     if category
       response_for_alexa = AlexaRubykit::Response.new
       response = category_call({location: get_location[:location], category: category})
@@ -38,6 +38,7 @@ module AlexaInterfaceHelper
     end
   end
 
+  # make the eventful api call when a category is given
   def category_call(call_parameters = {})
     # page size is 10 for testing; should be ~50 for production
     if Rails.env.production?
@@ -53,17 +54,17 @@ module AlexaInterfaceHelper
     response["events"]["event"]
   end
 
+  # generate response for alexa when the given category is invalid
   def generate_bad_category_response(category)
     response_for_alexa = AlexaRubykit::Response.new
     response_for_alexa.add_speech("Sorry, #{category} is not a valid category")
     response_for_alexa.build_response
   end
 
+  # Creates the speech for alexa when the search includes a category
   def format_results_category_speech_for_alexa(response_for_alexa, event, category)
-    event_name = event['title']
-    venue_name = event['venue_name']
     time_until = time_until(event)
-    response_for_alexa.add_speech("The top event in the category #{category} is #{event_name}. It is happening at #{venue_name}#{time_until}")
+    response_for_alexa.add_speech("The top event in the category #{category} is #{event['title']}. It is happening at #{event['venue_name']}#{time_until}")
   end
 
   # Make an api call to eventful and return an array of events (probably super huge long awful list)
@@ -109,9 +110,7 @@ module AlexaInterfaceHelper
       current_time = DateTime.parse(Time.zone.now.to_s)
       event_start_date = DateTime.parse(event['start_time'])
 
-      current_total_minute = current_time.hour * 60 + current_time.minute
-      event_total_minute = event_start_date.hour * 60 + event_start_date.minute
-      time_until = event_total_minute - current_total_minute
+      time_until = (event_start_date.hour * 60 + event_start_date.minute) - (current_time.hour * 60 + current_time.minute)
       hour_until = time_until / 60
       minute_until = time_until % 60
 
@@ -143,24 +142,22 @@ module AlexaInterfaceHelper
     response_for_alexa.add_card('Simple', 'Top events for tonight!', nil, content_for_alexa)
   end
 
+  # add speech to the response when we return no events
   def format_no_events_found_speech_for_alexa(response_for_alexa)
     response_for_alexa.add_speech("I cannot find anything happening now in #{get_location[:location]}")
   end
 
+  # Create a description of a single event to be added to a card containing all relevant data
   def generate_single_event_text_for_card(event)
-    event_name = event['title']
-    venue_name = event['venue_name']
-    start_date = event['start_time']
-    url = event['url']
     description = find_formatted_description(event)
 
     if event["all_day"] == "0"
-      start_time = DateTime.parse(start_date).strftime('%l:%M %p')
+      start_time = DateTime.parse(event['start_time']).strftime('%l:%M %p')
     else
       start_time = "All day"
     end
 
-    "Event: #{event_name} \n Venue: #{venue_name} \n Time: #{start_time} \n Description: #{description} \n More Info: #{url}"
+    "Event: #{event['title']} \n Venue: #{event['venue_name']} \n Time: #{start_time} \n Description: #{description} \n More Info: #{event['url']}"
   end
 
   # take care of edge case where there's no description within the event hash
@@ -178,12 +175,14 @@ module AlexaInterfaceHelper
     clip(formatted_text)
   end
 
+  # remove html character codes and html elements
   def format_html(html_text)
     escaped_br_text = html_text.gsub("<br>", "-=-=-0-=")
     text_with_quotes = Nokogiri::HTML(escaped_br_text).text
     text_with_quotes.gsub("-=-=-0-=", "\n")
   end
 
+  # clips the description if it's too long
   def clip(formatted_text)
     if formatted_text.length > 500
       formatted_text[(0...500)] + "..."
@@ -214,8 +213,8 @@ module AlexaInterfaceHelper
     params["session"]["user"]["userId"]
   end
 
+  # accesses the json alexa sends us to find the city given by the sender
   def get_city_from_json
     params["request"]["intent"]["slots"]["city"]["value"]
   end
-
 end

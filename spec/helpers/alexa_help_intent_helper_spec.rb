@@ -4,14 +4,14 @@ describe AlexaHelpIntentHelper do
   describe '#random_help_utterance' do
       let(:sample_utterances) do
       [
-        "Alexa, ask Wing It for something to do",
-        "Alexa, ask Wing It what is going on tonight",
-        "Alexa, I want to do something with Wing It",
-        "Alexa, Wing It",
-        "Alexa, run Wing It",
-        "Alexa, let's Wing It.",
-        "Alexa, I want to Wing It",
-        "Alexa, Wing It with me"
+        "Alexa, ask tonite for something to do",
+        "Alexa, ask tonite what is going on tonight",
+        "Alexa, I want to do something with tonite",
+        "Alexa, tonite",
+        "Alexa, run tonite",
+        "Alexa, let's tonite.",
+        "Alexa, I want to tonite",
+        "Alexa, tonite with me"
       ]
       end
     it 'includes a sample utterance' do
@@ -21,7 +21,7 @@ describe AlexaHelpIntentHelper do
 
   describe "#general_help_response" do
     it "returns with a suggestion of utterance to help with using the skill" do
-      expect(JSON.parse(general_help_response)['response']['outputSpeech']['text']).to match(/Alexa, .*Wing It.*/)
+      expect(JSON.parse(general_help_response)['response']['outputSpeech']['text']).to match(/Alexa, .*tonite.*/)
     end
   end
 

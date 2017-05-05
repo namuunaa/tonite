@@ -1,8 +1,6 @@
 class AlexaInterfaceController < ApplicationController
 
-
   def recommend
-
     @lookup_hash = {
           'music' => 'music',
           'concerts' => 'music',
@@ -63,7 +61,6 @@ class AlexaInterfaceController < ApplicationController
     }
 
     respond_to do |f|
-
       f.json do
         if params["request"]["intent"]
           case params["request"]["intent"]["name"]
@@ -94,5 +91,4 @@ class AlexaInterfaceController < ApplicationController
       end
     end
   end
-
 end

@@ -21,16 +21,6 @@ describe AlexaInterfaceHelper do
   end
 
   describe '#category_call' do
-    # Check what the category ID is actually called
-    xit 'returns results for the appropriate category' do
-      response = helper.category_call({ category: "music" })
-      response.each do |event|
-        # Is there a way to check the category of the API output?
-        correct_category = event['category'] == "music"
-        expect(correct_category).to be true
-      end
-    end
-
     it "returns an array of hashes" do
       response = helper.category_call({})
       expect(response).to be_a_kind_of(Array)

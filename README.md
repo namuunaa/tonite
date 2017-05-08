@@ -21,7 +21,7 @@ heroku server had fallen asleep.)
 ## Installing / Getting Started
 
 <p align="center">
-<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/system_overview.png" alt="system overview diagram" align="center">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/system_overview.png" alt="system overview diagram" align="center">
 </p>
 
 ### Alexa Skill Setup

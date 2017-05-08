@@ -20,9 +20,16 @@ heroku server had fallen asleep.)
 
 ## Installing / Getting Started
 
+<p align="center">
+<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/system_overview.png" alt="system overview diagram" align="center">
+</p>
+
 ### Alexa Skill Setup
 
 [See Getting Started with the Alexa Skills Kit](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/getting-started-guide)
+
+The Interaction Model is configured on the Amazon developer tools site. A copy
+of our model is
 
 ### Server Setup
 

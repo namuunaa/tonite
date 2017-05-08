@@ -13,8 +13,8 @@ event going on today for a spontaneous outing.
 
 Add the skill _Tonite_ to your Alexa account.
 
-<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/skill.png" alt="add skill">
-<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/top_event.png" alt="top skill">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/skill.png" alt="add skill">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/top_event.png" alt="top skill">
 
 
 Say "Alexa, ask Tonite for something to do."

@@ -40,6 +40,10 @@ endpoint field. It should be something like `https://your-domain-here/alexa_inte
  * Ruby on Rails
  * Amazon Alexa Skill
  * Echo Dot
+ * Travis-ci
+ * CodeCov
+ * Eventful API
+ * Heroku
 
 ## User Stories
 

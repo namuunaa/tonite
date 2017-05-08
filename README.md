@@ -3,7 +3,7 @@
 
 # Tonite
 <p align="center">
-<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
 </p>
 
 **Tonite** is an event recommendation app that allows users to use Alexa to find an
@@ -15,8 +15,8 @@ By connecting users with events and experiences they might never have sought out
 
 Add the skill _Tonite_ to your Alexa account.
 
-<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/skill.png" alt="add skill">
-<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/top_event.png" alt="top skill">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/skill.png" alt="add skill">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/top_event.png" alt="top skill">
 
 
 Say "Alexa, ask Tonite for something to do."

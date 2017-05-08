@@ -2,45 +2,62 @@
 
 ### As a user, I want to be able to get recommendations for events in my area happening today.
 
-"Alexa, ask Wing It for something to do"
+"Alexa, ask tonite for something to do."
 
-"Alexa, ask Wing It what is going on tonight"
+"Alexa, ask tonite what's going on."
 
-"Alexa, I want to do something with Wing It"
+"Alexa, ask tonite about local events."
 
-"Alexa, Wing It"
+"Alexa, I want something to do from tonite."
 
-"Alexa, run Wing It"
+"Alexa, tonite."
 
-"Alexa, let's Wing It."
+"Alexa, run tonite."
 
-"Alexa, I want to Wing It"
+"Alexa, search tonite."
 
-"Alexa, Wing It with me"
+"Alexa, what is going on tonite?
 
 ### As a user, I want to be able to ask for help.
 
-"Alexa, ask Wing It how it works"
+"Alexa, ask tonite how it works."
 
-"Alexa, help with Wing It"
+"Alexa, help with tonite."
 
-"Alexa, give me help with Wing It"
+"Alexa, give me help with tonite."
 
-"Alexa, ask Wing It for help"
+"Alexa, ask tonite for help."
+
+"Alexa, tonite help."
 
 ### As a user, I want to be able to set my location.
 
-"Alexa, ask Wing It to set my city to {city}"
+"Alexa, ask tonite to set my city to San Francisco."
 
-"Alexa, ask Wing It to set my location to {city}"
+"Alexa, ask tonite to set my location to Seattle."
 
-"Alexa, ask Wing It to set my home to {city}"
+"Alexa, ask tonite to set my home to Eugene."
 
-"Alexa, tell Wing It to set my city to {city}"
+"Alexa, tell tonite to set my city to Boston."
 
-"Alexa, tell Wing It my home is {city}"
+"Alexa, tell tonite my home is Bangor."
 
-"Alexa, tell Wing It i live in {city}"
+"Alexa, tell tonite I live in Honolulu."
 
+### As a user, I want to get a list of event categories.
 
+"Alexa, ask tonite what categories are available."
 
+"Alexa, tell tonite to list the categories."
+
+"Alexa, what are the categories in tonite?"
+
+### As a user, I want to search for events in a specific category.
+
+"Alexa, tell tonite to find events in film."
+
+"Alexa, ask tonite for sports events."
+
+"Alexa, ask tonite for events about books."
+
+"Alexa, concert events from tonite."

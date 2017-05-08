@@ -23,9 +23,15 @@ Say "Alexa, ask Tonite for something to do."
 
 ## Installing / Getting Started
 
+<p align="center">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/system_overview.png" alt="system overview diagram" align="center">
+</p>
+
 ### Alexa Skill Setup
 
 [See Getting Started with the Alexa Skills Kit](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/getting-started-guide)
+
+[Our speech interface configuration](./alexa_interface.json)
 
 ### Server Setup
 

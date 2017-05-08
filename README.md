@@ -15,9 +15,6 @@ Add the skill _Tonite_ to your Alexa account.
 
 Say "Alexa, ask Tonite for something to do."
 
-(If the server takes too long to respond, please try again. Likely our free
-heroku server had fallen asleep.)
-
 ## Installing / Getting Started
 
 ### Alexa Skill Setup

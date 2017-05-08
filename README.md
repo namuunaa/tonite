@@ -9,6 +9,8 @@
 **Tonite** is an event recommendation app that allows users to use Alexa to find an
 event going on today for a spontaneous outing.
 
+By connecting users with events and experiences they might never have sought out on their own, we encourage them to embrace serendipity and discover a new side of their city.
+
 ## Basic Use
 
 Add the skill _Tonite_ to your Alexa account.

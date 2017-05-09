@@ -3,7 +3,7 @@
 
 # Tonite
 <p align="center">
-<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
+<img src= "app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
 </p>
 
 **Tonite** is an event recommendation app that allows users to use Alexa to find an
@@ -15,17 +15,15 @@ By connecting users with events and experiences they might never have sought out
 
 Add the skill _Tonite_ to your Alexa account.
 
-<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/skill.png" alt="add skill" width="400" height="600">
-Skill Page: A screenshot of the Skill page for our app on the Amazon Alexa app Skills section.
-<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/top_event.png" alt="top skill" width="400" height="600">
-Event Card: A screenshot of an example output from the text portion of our response to a user.
+<img src= "app/assets/images/skill.png" alt="add skill" width="400" height="600">   <img src= "app/assets/images/top_event.png" alt="top skill" width="400" height="600">
+Skill Page: A screenshot of the Skill page for our app on the Amazon Alexa app Skills section. | Event Card: A screenshot of an example output from the text portion of our response to a user.
 
 Say "Alexa, ask Tonite for something to do."
 
 ## Installing / Getting Started
 
 <p align="center">
-<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/system_overview.png" alt="system overview diagram" align="center">
+<img src= "app/assets/images/system_overview.png" alt="system overview diagram" align="center">
 </p>
 System Overview: Shows the process of making, processing, and receiving a response to a request.
 

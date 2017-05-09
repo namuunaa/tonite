@@ -53,13 +53,5 @@ RSpec.describe AlexaInterfaceController, :type => :controller do
       expect(assigns(:user).user_id).to eq("userId")
       expect(assigns(:user).city).to eq("City")
     end
-
-    it 'will return an easter egg if the EasterEggs is triggered' do
-      json['request'] = {'intent' => {'name' => 'EasterEggs'}}
-      post :recommend, params: json
-
-      expect(JSON.parse(response.parsed_body)['response']['outputSpeech']['text']).to match (/The Wild Pigs graduation party is happening at Sparks Social SF starting at  6:30 PM. You have (\d+ hr and \d+ min|\d+ hr|\d+ min) to get ready. Time to celebrate!/)
-    end
-
   end
 end

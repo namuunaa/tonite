@@ -1,0 +1,409 @@
+{
+  "intents": [
+    {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.HelpIntent",
+      "samples": [
+        "how it works",
+        "help",
+        "for help",
+        "give me help",
+        "how to use",
+        "to help me",
+        "help me",
+        "i need help",
+        "for advice"
+      ]
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "CategoryHelpIntent",
+      "samples": [
+        "what category options do i have",
+        "list me all categories",
+        "list me categories",
+        "what are some event categories",
+        "tell me categories",
+        "what are my category options",
+        "help with categories",
+        "help in categories",
+        "what my category options are",
+        "what categories are available",
+        "list categories",
+        "list the categories",
+        "what are the categories"
+      ],
+      "slots": []
+    },
+    {
+      "name": "CityHelpIntent",
+      "samples": [
+        "what city am i in",
+        "what's my city",
+        "where am i",
+        "what's my location",
+        "what city i'm in",
+        "my location"
+      ],
+      "slots": []
+    },
+    {
+      "name": "EasterEggs",
+      "samples": [
+        "what's the coolest event tonight",
+        "what is the coolest event tonight",
+        "find me the coolest event tonight",
+        "let's get turnt"
+      ],
+      "slots": []
+    },
+    {
+      "name": "SetCategoryIntent",
+      "samples": [
+        "events in {category} ",
+        "any events happening in {category} ",
+        "what's going on tonight in {category} ",
+        "do something in {category} ",
+        "things to do in {category} ",
+        "in {category} ",
+        "things to do today in {category} ",
+        "things to do tonight in {category} ",
+        "things to do in {category} today",
+        "things to do in {category} tonight",
+        "events happening in {category} ",
+        "what's going on today in {category} ",
+        "what's going on in {category} today",
+        "what's going on in {category} tonight",
+        "events in category {category} ",
+        "what to do today in category {category} ",
+        "find events in {category} ",
+        "{category} events",
+        "events about {category}"
+      ],
+      "slots": [
+        {
+          "name": "category",
+          "type": "CATEGORY_LIST",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "name": "SetCityIntent",
+      "samples": [
+        "set home to {city}",
+        "set my home to {city}",
+        "my home is {city}",
+        "i live in {city}",
+        "home {city}",
+        "set my city to {city}",
+        "my location is {city}",
+        "set my location to {city} "
+      ],
+      "slots": [
+        {
+          "name": "city",
+          "type": "AMAZON.US_CITY",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "name": "WingItIntent",
+      "samples": [
+        "what's going on",
+        "something to do",
+        "tonight's events",
+        "today's events",
+        "what I can do tonight",
+        "what I can do today",
+        "what there is to do",
+        "things to do",
+        "things to do today",
+        "what there is to do today",
+        "what's going on today",
+        "what's happening today",
+        "do something",
+        "what is going on tonight",
+        "events",
+        "give me something to do",
+        "local events",
+        "what is going"
+      ],
+      "slots": []
+    }
+  ],
+  "types": [
+    {
+      "name": "CATEGORY_LIST",
+      "values": [
+        {
+          "name": {
+            "value": "music"
+          }
+        },
+        {
+          "name": {
+            "value": "sports"
+          }
+        },
+        {
+          "name": {
+            "value": "nightlife"
+          }
+        },
+        {
+          "name": {
+            "value": "food"
+          }
+        },
+        {
+          "name": {
+            "value": "concerts"
+          }
+        },
+        {
+          "name": {
+            "value": "comedy"
+          }
+        },
+        {
+          "name": {
+            "value": "movies"
+          }
+        },
+        {
+          "name": {
+            "value": "arts"
+          }
+        },
+        {
+          "name": {
+            "value": "classes"
+          }
+        },
+        {
+          "name": {
+            "value": "networking"
+          }
+        },
+        {
+          "name": {
+            "value": "family"
+          }
+        },
+        {
+          "name": {
+            "value": "conferences"
+          }
+        },
+        {
+          "name": {
+            "value": "education"
+          }
+        },
+        {
+          "name": {
+            "value": "festival"
+          }
+        },
+        {
+          "name": {
+            "value": "film"
+          }
+        },
+        {
+          "name": {
+            "value": "fundraisers"
+          }
+        },
+        {
+          "name": {
+            "value": "galleries"
+          }
+        },
+        {
+          "name": {
+            "value": "health"
+          }
+        },
+        {
+          "name": {
+            "value": "holiday"
+          }
+        },
+        {
+          "name": {
+            "value": "literary"
+          }
+        },
+        {
+          "name": {
+            "value": "museums"
+          }
+        },
+        {
+          "name": {
+            "value": "neighborhood"
+          }
+        },
+        {
+          "name": {
+            "value": "on campus"
+          }
+        },
+        {
+          "name": {
+            "value": "organizations"
+          }
+        },
+        {
+          "name": {
+            "value": "outdoors"
+          }
+        },
+        {
+          "name": {
+            "value": "pets"
+          }
+        },
+        {
+          "name": {
+            "value": "politics"
+          }
+        },
+        {
+          "name": {
+            "value": "sales"
+          }
+        },
+        {
+          "name": {
+            "value": "science"
+          }
+        },
+        {
+          "name": {
+            "value": "spirituality"
+          }
+        },
+        {
+          "name": {
+            "value": "technology"
+          }
+        },
+        {
+          "name": {
+            "value": "other"
+          }
+        },
+        {
+          "name": {
+            "value": "Tour Dates"
+          }
+        },
+        {
+          "name": {
+            "value": "kids"
+          }
+        },
+        {
+          "name": {
+            "value": "festivals"
+          }
+        },
+        {
+          "name": {
+            "value": "Wine"
+          }
+        },
+        {
+          "name": {
+            "value": "Charity"
+          }
+        },
+        {
+          "name": {
+            "value": "Art Galleries"
+          }
+        },
+        {
+          "name": {
+            "value": "Exhibits"
+          }
+        },
+        {
+          "name": {
+            "value": "Wellness"
+          }
+        },
+        {
+          "name": {
+            "value": "Books"
+          }
+        },
+        {
+          "name": {
+            "value": "Attractions"
+          }
+        },
+        {
+          "name": {
+            "value": "Business"
+          }
+        },
+        {
+          "name": {
+            "value": "Singles"
+          }
+        },
+        {
+          "name": {
+            "value": "Alumni"
+          }
+        },
+        {
+          "name": {
+            "value": "University"
+          }
+        },
+        {
+          "name": {
+            "value": "Meetups"
+          }
+        },
+        {
+          "name": {
+            "value": "Recreation"
+          }
+        },
+        {
+          "name": {
+            "value": "Activism"
+          }
+        },
+        {
+          "name": {
+            "value": "Retail"
+          }
+        },
+        {
+          "name": {
+            "value": "Religion"
+          }
+        },
+        {
+          "name": {
+            "value": "Miscellaneous"
+          }
+        }
+      ]
+    }
+  ]
+}

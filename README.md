@@ -3,26 +3,37 @@
 
 # Tonite
 <p align="center">
-<img src= "https://github.com/namuunaa/tonite/blob/development/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/tonite_512_round.png" alt="tonite logo" align="center">
 </p>
 
 **Tonite** is an event recommendation app that allows users to use Alexa to find an
 event going on today for a spontaneous outing.
 
+By connecting users with events and experiences they might never have sought out on their own, we encourage them to embrace serendipity and discover a new side of their city.
+
 ## Basic Use
 
 Add the skill _Tonite_ to your Alexa account.
 
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/skill.png" alt="add skill" width="400" height="600">
+Skill Page: A screenshot of the Skill page for our app on the Amazon Alexa app Skills section.
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/top_event.png" alt="top skill" width="400" height="600">
+Event Card: A screenshot of an example output from the text portion of our response to a user.
+
 Say "Alexa, ask Tonite for something to do."
 
-(If the server takes too long to respond, please try again. Likely our free
-heroku server had fallen asleep.)
-
 ## Installing / Getting Started
+
+<p align="center">
+<img src= "https://github.com/namuunaa/tonite/blob/master/app/assets/images/system_overview.png" alt="system overview diagram" align="center">
+</p>
+System Overview: Shows the process of making, processing, and receiving a response to a request.
 
 ### Alexa Skill Setup
 
 [See Getting Started with the Alexa Skills Kit](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/getting-started-guide)
+
+[Our speech interface configuration](./alexa_interface.json)
 
 ### Server Setup
 
@@ -43,6 +54,10 @@ endpoint field. It should be something like `https://your-domain-here/alexa_inte
  * Ruby on Rails
  * Amazon Alexa Skill
  * Echo Dot
+ * Travis-ci
+ * CodeCov
+ * Eventful API
+ * Heroku
 
 ## User Stories
 
